@@ -8,7 +8,7 @@ namespace {{LIB.DIR}} {
 namespace controller {
 
 class SampleController {
- public:
+public:
   void SetOutput(std::shared_ptr<use_cases::ISampleInteractorInput> output) {
     output_ = output;
   }
@@ -21,9 +21,9 @@ class SampleController {
     }
   }
 
- private:
+private:
   std::shared_ptr<use_cases::ISampleInteractorInput> output_;
 };
 
-}  // namespace controller
-}  // namespace {{LIB.DIR}}
+} // namespace controller
+} // namespace {{LIB.DIR}}

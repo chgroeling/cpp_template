@@ -10,6 +10,5 @@ public:
   virtual void DoSomething(entities::SampleInteractorRequest request) = 0;
 };
 
-
 } // namespace use_cases
 } // namespace {{LIB.DIR}}

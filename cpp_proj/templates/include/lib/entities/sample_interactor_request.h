@@ -7,5 +7,5 @@ struct SampleInteractorRequest {
   int request_data;
 };
 
-}  // namespace entities
-}  // namespace {{LIB.DIR}}
+} // namespace entities
+} // namespace {{LIB.DIR}}

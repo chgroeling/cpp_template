@@ -8,8 +8,8 @@
 #include <wx/wx.h>
 {% endif %}
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
 #include "{{LIB.DIR}}/controller/sample_controller.h"
 #include "{{LIB.DIR}}/db/sample_repository.h"
