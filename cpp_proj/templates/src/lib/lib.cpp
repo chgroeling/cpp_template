@@ -1,4 +1,4 @@
-#include "lib/lib.h"
+#include "{{LIB.NAME}}/lib.h"
 #include <iostream>
 
 namespace lib {
