@@ -166,18 +166,31 @@ public:
 IMPLEMENT_APP(MyApp)
 
 bool MyApp::OnInit() {
+  // Print welcome message
   std::cout << "App: Hello World !!!\n";
   {{LIB.DIR}}::{{LIB.CLASS}} lib;
-
   lib.PrintHello();
+
 {% if GENERATOR.cleanarchitecture %}
+  // Test clean architecture implementation
   TestCleanArchitecture();
+
 {% endif %}
 {% if EXTERN.fmt %}
+  // Test string format library
   fmt::print("App: Hello FMT\n");
+
 {% endif %}
 {% if EXTERN.spdlog%}
+  // Test logging library
   LogTest();
+
+{% endif %}
+{% if EXTERN.cxxopts%}
+  // Parse command line options
+  // Currently not supported when using wxWdigets
+  // ret = parse_command_line(argc, argv);
+
 {% endif %}
   Simple *simple = new Simple(wxT("Simple"));
   simple->Show(true);
