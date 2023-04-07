@@ -45,8 +45,13 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   endif()
 {% endif %}
 endif()
+{% if 'nlohmann_json' in extern %}
+# ------------------------------------
+# nlohmann json library
+# ------------------------------------
+add_subdirectory(extern/nlohmann_json EXCLUDE_FROM_ALL)
 
-{# CXXOOPTS #}
+{% endif %}
 {% if 'cxx_opts' in extern %}
 # ------------------------------------
 # CXXOPTS

@@ -20,5 +20,10 @@ target_link_libraries({{lib.specs.dir}} PUBLIC fmt)
 {% endif %}
 {% if 'spdlog' in extern%}
 target_link_libraries({{lib.specs.dir}} PUBLIC spdlog)
+
+{% endif %}
+{% if 'nlohmann_json' in extern%}
+# Link GUI library
+target_link_libraries({{lib.specs.dir}} PUBLIC nlohmann_json)
 {% endif %}
 

@@ -23,6 +23,7 @@ project_def = {
         "fmt_example": {"extern.fmt"},
         "lib_example": {"lib"},
         "spdlog_example": {"extern.spdlog"},
+        "nlohmann_json_example" : {"extern.nlohmann_json"},
         #"wxwidgets_example": {"extern.wxwidgets"},
         "clean_architecture_example": {"lib.clean_architecture"},
     },
@@ -71,6 +72,7 @@ project_def = {
         "fmt": {},
         "spdlog": {},
         "doxygen": {},
+        "nlohmann_json":{}
     },
 }
 
@@ -164,6 +166,7 @@ is_spdlog = "spdlog" in project_def["extern"]
 is_cxxopts = "cxxopts" in project_def["extern"]
 is_wxwidgets = "wxwidgets" in project_def["extern"]
 is_googletest = "googletest" in project_def["extern"]
+is_nlohmann_json = "nlohmann_json" in project_def["extern"]
 
 
 # ----------------------------------------------------------------------------
@@ -362,3 +365,9 @@ if is_googletest:
         "./tmp", "https://github.com/google/googletest.git", "extern/googletest"
     )
     GitCheckoutSubModule("./tmp/extern/googletest", "release-1.12.1")
+
+if is_nlohmann_json:
+    GitAddSubModule(
+        "./tmp", "https://github.com/nlohmann/json", "extern/nlohmann_json"
+    )
+    GitCheckoutSubModule("./tmp/extern/nlohmann_json", "v3.11.2")

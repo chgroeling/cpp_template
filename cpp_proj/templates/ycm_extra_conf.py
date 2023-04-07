@@ -13,6 +13,9 @@ def Settings( **kwargs ):
 {% if 'cxxopts' in extern%}
               '-I./extern/cxxopts/include', 
 {% endif %}
+{% if 'nlohmann_json' in extern%}
+              '-I./extern/nlohmann_json/include', 
+{% endif %}
               '-I./extern/fmt/include', 
               '-I./extern/spdlog/include',
               '-I./include', 

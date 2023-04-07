@@ -6,6 +6,9 @@
 {% endif %}
 #include <iostream>
 #include <memory>
+{% if 'nlohmann_json_example' in app%}
+#include <nlohmann/json.hpp>
+{% endif %}
 {% if 'spdlog_example' in app%}
 #include <spdlog/spdlog.h>
 {% endif %}
@@ -13,6 +16,9 @@
 #include <wx/wx.h>
 {% endif %}
 
+{% if 'lib_example' in app%}
+#include "{{lib.specs.dir}}/{{lib.specs.filename}}.h"
+{% endif %}
 {% if 'clean_architecture_example' in app %}
 #include "{{lib.specs.dir}}/controller/sample_controller.h"
 #include "{{lib.specs.dir}}/db/sample_repository.h"
@@ -20,10 +26,24 @@
 #include "{{lib.specs.dir}}/use_cases/sample_interactor.h"
 
 {% endif %}
-{% if 'lib_example' in app%}
-#include "{{lib.specs.dir}}/{{lib.specs.filename}}.h"
+{% if 'nlohmann_json_example' in app%}
+using json = nlohmann::json;
 
+void NlohmannJsonTest() {
+  // or even nicer with a raw string literal
+  auto j = R"(
+    {
+      "happy": true,
+      "pi": 3.141
+    }
+  )"_json;
+
+  // serialization with pretty printing
+  // pass in the amount of spaces to indent
+  std::cout << j.dump(4) << std::endl;
+}
 {% endif %}
+
 {% if 'spdlog_example' in app%}
 void LogTest() {
   spdlog::info("Welcome to spdlog!");
@@ -138,6 +158,11 @@ int main(int argc, const char *argv[]) {
   lib.PrintHello();
 
 {% endif %}
+{% if 'nlohmann_json_example' in app%}
+  // Nlohmanns json lib test
+  NlohmannJsonTest();
+
+{% endif %}
 {% if 'clean_architecture_example' in app %}
   // Test clean architecture implementation
   TestCleanArchitecture();
@@ -184,6 +209,11 @@ bool MyApp::OnInit() {
 {% if 'lib_example' in app%}
   {{lib.specs.dir}}::{{lib.specs.class}} lib;
   lib.PrintHello();
+
+{% endif %}
+{% if 'nlohmann_json_example' in app%}
+  // Nlohmanns json lib test
+  NlohmannJsonTest();
 
 {% endif %}
 {% if 'clean_architecture_example' in app %}
