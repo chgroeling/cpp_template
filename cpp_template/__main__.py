@@ -10,9 +10,9 @@ project_def = {
     "PROJECT_DESCRIPTION": "Bitstream library",
 
     "PARTS": {
-        "app": False,  # Generate an app which uses the library
+        "app": True,  # Generate an app which uses the library
         "lib": False, # Generate a library target
-        "test_basic": True,  # Adds a testing file containing the most simple google tests possible. Needs googletest.
+        "test_basic": False,  # Adds a testing file containing the most simple google tests possible. Needs googletest.
         "test_lib": False,  # Adds a testing file for a library target. Needs googletest.
         "cleanarchitecture": False,  # Generate a sample structure using uncle bobs clean architecture
     },
@@ -30,7 +30,7 @@ project_def = {
 
     "EXTERN": {
         "doxygen": False,
-        "googletest": True,
+        "googletest": False,
         "cxxopts": False,
         "fmt": False,
         "spdlog": False,

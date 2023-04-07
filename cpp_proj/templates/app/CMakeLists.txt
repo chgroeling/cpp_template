@@ -4,9 +4,11 @@ set(APP_SOURCES
 
 add_executable({{APP.TARGET}} ${APP_SOURCES})
 
+{% if PARTS.lib%}
 # Link local libraries
 target_link_libraries({{APP.TARGET}} PUBLIC {{LIB.DIR}})
 
+{% endif %}
 # Link string format library
 {% if EXTERN.fmt%}
 target_link_libraries({{APP.TARGET}} PUBLIC fmt)

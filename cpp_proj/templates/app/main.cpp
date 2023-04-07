@@ -13,6 +13,7 @@
 #include <cxxopts.hpp>
 {% endif %}
 
+{% if PARTS.lib%}
 {% if PARTS.cleanarchitecture %}
 #include "{{LIB.DIR}}/controller/sample_controller.h"
 #include "{{LIB.DIR}}/db/sample_repository.h"
@@ -21,6 +22,7 @@
 
 {% endif %}
 #include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
+{% endif %}
 
 {% if EXTERN.spdlog%}
 void LogTest() {
@@ -121,10 +123,12 @@ int main(int argc, const char *argv[]) {
   // Print welcome message
   std::cout << "App: Hello World !!!\n";
 
+{% if PARTS.lib%}
   // Test local library
   {{LIB.DIR}}::{{LIB.CLASS}} lib;
   lib.PrintHello();
 
+{% endif %}
 {% if PARTS.cleanarchitecture %}
   // Test clean architecture implementation
   TestCleanArchitecture();
@@ -168,9 +172,12 @@ IMPLEMENT_APP(MyApp)
 bool MyApp::OnInit() {
   // Print welcome message
   std::cout << "App: Hello World !!!\n";
+
+{% if PARTS.lib%}
   {{LIB.DIR}}::{{LIB.CLASS}} lib;
   lib.PrintHello();
 
+{% endif %}
 {% if PARTS.cleanarchitecture %}
   // Test clean architecture implementation
   TestCleanArchitecture();
