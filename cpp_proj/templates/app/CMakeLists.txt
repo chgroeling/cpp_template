@@ -25,9 +25,16 @@ target_link_libraries({{app.specs.target}} PUBLIC cxxopts)
 
 {% endif %}
 {% if 'wxwidgets' in extern%}
+{% if extern.wxwidgets.specs.local==True%}
+# Link GUI library
+include(${wxWidgets_USE_FILE})
+target_link_libraries({{app.specs.target}} PUBLIC ${wxWidgets_LIBRARIES})
+
+{% else %}
 # Link GUI library
 target_link_libraries({{app.specs.target}} PUBLIC wx::net wx::core wx::base)
 
+{% endif %}
 {% endif %}
 {% if 'nlohmann_json' in extern%}
 # Link GUI library

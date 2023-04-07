@@ -45,6 +45,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   endif()
 {% endif %}
 endif()
+
+
 {% if 'sqlitecpp' in extern %}
 # ------------------------------------
 # sqlitecpp library
@@ -106,8 +108,13 @@ target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern
 # ------------------------------------
 # wxWidgets
 # ------------------------------------
+{% if extern.wxwidgets.specs.local == True%}
+find_package(wxWidgets REQUIRED gl core base)
+
+{% else %}
 add_subdirectory(extern/wxWidgets EXCLUDE_FROM_ALL)
 
+{% endif %}
 {% endif %}
 {% if lib is defined%}
 # ------------------------------------

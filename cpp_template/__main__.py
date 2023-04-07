@@ -6,9 +6,9 @@ import subprocess
 project_def = {
     "project": {
         "specs": {
-            "name": "Bitstream",
+            "name": "PlotCraft",
             "version": "0.1.1",
-            "description": "Bitstream library",
+            "description": "PlotCraft library",
         },
     },
     # --------
@@ -16,15 +16,15 @@ project_def = {
     # --------
     "app": {
         "specs": {
-            "dir": "app_bs",  # The project will be generated with one app in the given directory
-            "target": "app_bs",  # That is the name of the target
+            "dir": "app_plotcraft",  # The project will be generated with one app in the given directory
+            "target": "app_plotcraft",  # That is the name of the target
         },
         "cxxopts_example": {"extern.cxxopts"},
         "fmt_example": {"extern.fmt"},
         "lib_example": {"lib"},
         "spdlog_example": {"extern.spdlog"},
-        "nlohmann_json_example" : {"extern.nlohmann_json"},
-        #"wxwidgets_example": {"extern.wxwidgets"},
+        "nlohmann_json_example": {"extern.nlohmann_json"},
+        # "wxwidgets_example": {"extern.wxwidgets"},
         "clean_architecture_example": {"lib.clean_architecture"},
     },
     #
@@ -33,14 +33,14 @@ project_def = {
     # --------
     "lib": {
         "specs": {
-            "dir": "bitstream",  # This is the name of the library directory
-            "filename": "bitstream",  # The library directory contains one cpp module with this name
-            "class": "BitStream",  # This is the name of the class defined in the generated cpp module
+            "dir": "plotcraft",  # This is the name of the library directory
+            "filename": "plotcraft",  # The library directory contains one cpp module with this name
+            "class": "PlotCraft",  # This is the name of the class defined in the generated cpp module
         },
         "fmt_example": {"extern.fmt"},
-        "nlohmann_json_example" : {"extern.nlohmann_json"},
+        "nlohmann_json_example": {"extern.nlohmann_json"},
         "spdlog_example": {"extern.spdlog"},
-        "sqlitecpp_example": {"extern.sqlitecpp"},
+        #"sqlitecpp_example": {"extern.sqlitecpp"},
         "clean_architecture": {},
     },
     # --------
@@ -58,24 +58,24 @@ project_def = {
     "test": {
         "basic": {"extern.googletest"},
         "lib": {"lib", "extern.googletest"},
-         "clean_architecture_tests": {
-             "lib.clean_architecture",
-             "extern.googletest",
-         },
+        "clean_architecture_tests": {
+            "lib.clean_architecture",
+            "extern.googletest",
+        },
     },
     #
     # --------
     # Externals
     # --------
     "extern": {
-        #"wxwidgets": {},
+        "wxwidgets": {"specs": {"local": True}},
         "googletest": {},
         "cxxopts": {},
         "fmt": {},
         "spdlog": {},
         "doxygen": {},
-        "nlohmann_json":{},
-        "sqlitecpp" : {}
+        "nlohmann_json": {},
+        #"sqlitecpp": {},
     },
 }
 
@@ -88,6 +88,8 @@ def follow(depth, prj, element):
             continue
 
         for j in i:
+            if j == "specs":
+                continue
             elements = j.split(".")
             print("  " * depth + str(elements))
             # NAVIGATE
@@ -167,7 +169,9 @@ is_fmt = "fmt" in project_def["extern"]
 is_doxygen = "doxygen" in project_def["extern"]
 is_spdlog = "spdlog" in project_def["extern"]
 is_cxxopts = "cxxopts" in project_def["extern"]
-is_wxwidgets = "wxwidgets" in project_def["extern"]
+is_wxwidgets = "wxwidgets" in project_def["extern"] and (
+    project_def["extern"]["wxwidgets"]["specs"]["local"] == False
+)
 is_googletest = "googletest" in project_def["extern"]
 is_nlohmann_json = "nlohmann_json" in project_def["extern"]
 is_sqlitecpp = "sqlitecpp" in project_def["extern"]
@@ -305,8 +309,7 @@ if is_test:
         TESTS_TO_RENDER += [
             (
                 "tests/lib/use_cases/test_sample_interactor.cpp",
-                proj_path
-                + "tests/%s/use_cases/test_sample_interactor.cpp" % (lib_dir),
+                proj_path + "tests/%s/use_cases/test_sample_interactor.cpp" % (lib_dir),
             ),
         ]
 
@@ -370,9 +373,7 @@ if is_googletest:
     GitCheckoutSubModule("./tmp/extern/googletest", "release-1.12.1")
 
 if is_nlohmann_json:
-    GitAddSubModule(
-        "./tmp", "https://github.com/nlohmann/json", "extern/nlohmann_json"
-    )
+    GitAddSubModule("./tmp", "https://github.com/nlohmann/json", "extern/nlohmann_json")
     GitCheckoutSubModule("./tmp/extern/nlohmann_json", "v3.11.2")
 
 if is_sqlitecpp:
@@ -380,6 +381,3 @@ if is_sqlitecpp:
         "./tmp", "https://github.com/SRombauts/SQLiteCpp", "extern/sqlitecpp"
     )
     GitCheckoutSubModule("./tmp/extern/sqlitecpp", "3.1.1")
-
-
-
