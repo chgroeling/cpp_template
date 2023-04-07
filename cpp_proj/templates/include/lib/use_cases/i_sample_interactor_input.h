@@ -2,6 +2,8 @@
 
 #include "{{LIB.DIR}}/entities/sample_interactor_request.h"
 
+
+namespace {{LIB.DIR}} {
 namespace use_cases {
 
 class ISampleInteractorInput {
@@ -10,3 +12,4 @@ class ISampleInteractorInput {
 };
 
 }  // namespace use_cases
+}  // namespace {{LIB.DIR}}

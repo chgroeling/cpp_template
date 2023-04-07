@@ -8,10 +8,10 @@
 #include <memory>
 #include <iostream>
 
-#include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
-#include "{{LIB.DIR}}/use_cases/sample_interactor.h"
 #include "{{LIB.DIR}}/controller/sample_controller.h"
+#include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
 #include "{{LIB.DIR}}/presenter/sample_presenter.h"
+#include "{{LIB.DIR}}/use_cases/sample_interactor.h"
 
 {% if EXTERN.spdlog%}
 void log_test() 
@@ -41,12 +41,12 @@ int main(int argc, const char* argv[]) {
 {% if EXTERN.spdlog%}
   log_test();
 {% endif %}
-  auto sample_presenter = std::make_shared<presenter::SamplePresenter>();
+  auto sample_presenter = std::make_shared<{{LIB.DIR}}::presenter::SamplePresenter>();
 
-  auto sample_interactor = std::make_shared<use_cases::SampleInteractor>();
+  auto sample_interactor = std::make_shared<{{LIB.DIR}}::use_cases::SampleInteractor>();
   sample_interactor->SetOutput(sample_presenter);
 
-  auto sample_controller = std::make_shared<controller::SampleController>();
+  auto sample_controller = std::make_shared<{{LIB.DIR}}::controller::SampleController>();
   sample_controller->SetOutput(sample_interactor);
 
   sample_controller->DoSomething();

@@ -1,5 +1,6 @@
 #pragma once
 
+namespace {{LIB.DIR}} {
 namespace entities {
 
 struct SampleInteractorRequest {
@@ -7,3 +8,4 @@ struct SampleInteractorRequest {
 };
 
 }  // namespace entities
+}  // namespace {{LIB.DIR}}

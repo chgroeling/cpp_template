@@ -4,6 +4,7 @@
 
 #include "{{LIB.DIR}}/use_cases/i_sample_interactor_input.h"
 
+namespace {{LIB.DIR}} {
 namespace controller {
 
 class SampleController {
@@ -25,3 +26,4 @@ class SampleController {
 };
 
 }  // namespace controller
+}  // namespace {{LIB.DIR}}

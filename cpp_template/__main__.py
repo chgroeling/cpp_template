@@ -32,7 +32,7 @@ project_def = {
     },
     "LIB": {  # The project will be generated with one library
         "DIR": "mylib",  # This is the name of the library directory
-        "FILENAME": "libary",  # The library directory contains one cpp module with this name
+        "FILENAME": "library",  # The library directory contains one cpp module with this name
         "CLASS": "MyClass",  # This is the name of the class defined in the generated cpp module
     },
     "EXTERN": {
