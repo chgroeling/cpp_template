@@ -15,6 +15,15 @@ def GitAddSubModule(repoDir, url, path):
     p = subprocess.Popen(cmd, cwd=repoDir)
     p.wait()
 
+def GitInitSubModule(repoDir):
+    cmd = ["git", "submodule", "init"]
+    p = subprocess.Popen(cmd, cwd=repoDir)
+    p.wait()
+
+def GitUpdateSubModule(repoDir):
+    cmd = ["git", "submodule", "update"]
+    p = subprocess.Popen(cmd, cwd=repoDir)
+    p.wait()
 
 def GitCheckoutSubModule(repoDir, hash):
     cmd = ["git", "checkout", hash]
@@ -23,17 +32,17 @@ def GitCheckoutSubModule(repoDir, hash):
 
 
 project_def = {
-    "PROJECT_NAME": "test_project",
-    "PROJECT_VERSION": "0.3",
-    "PROJECT_DESCRIPTION": "Test Project",
+    "PROJECT_NAME": "fwgui",
+    "PROJECT_VERSION": "0.1",
+    "PROJECT_DESCRIPTION": "Firmware gui",
     "APP": {
-        "DIR": "myapp",  # The project will be generated with one app in the given directory
-        "TARGET": "appl",  # Thats the name of the target
+        "DIR": "fwgui",  # The project will be generated with one app in the given directory
+        "TARGET": "fwgui",  # Thats the name of the target
     },
     "LIB": {  # The project will be generated with one library
-        "DIR": "mylib",  # This is the name of the library directory
-        "FILENAME": "library",  # The library directory contains one cpp module with this name
-        "CLASS": "MyClass",  # This is the name of the class defined in the generated cpp module
+        "DIR": "gui_model",  # This is the name of the library directory
+        "FILENAME": "gui_model",  # The library directory contains one cpp module with this name
+        "CLASS": "GuiModel",  # This is the name of the class defined in the generated cpp module
     },
     "EXTERN": {
         "doxygen": False,
@@ -42,6 +51,7 @@ project_def = {
         "fmt": True,
         "spdlog": True,
         "PCRE2": False,
+        "wxWidgets" : True,
     },
 }
 
@@ -68,6 +78,7 @@ app_dir = project_def["APP"]["DIR"]
 lib_dir = project_def["LIB"]["DIR"]
 is_fmt = project_def["EXTERN"]["fmt"]
 is_spdlog = project_def["EXTERN"]["spdlog"]
+is_wxwidgets = project_def["EXTERN"]["wxWidgets"]
 
 # ----------------------------------------------------------------------------
 # RENDER TEMPLATES AND WRITE THEM INTO THE STRUCTURE
@@ -78,6 +89,10 @@ FILES_TO_RENDER = [
     ("app/CMakeLists.txt", proj_path + "%s/CMakeLists.txt" % (app_dir)),
     ("src/CMakeLists.txt", proj_path + "src/CMakeLists.txt"),
     ("app/main.cpp", proj_path + "%s/main.cpp" % (app_dir)),
+    (
+        "ycm_extra_conf.py",
+        proj_path + ".ycm_extra_conf.py",
+    ),
     (
         "src/lib/lib.cpp",
         proj_path + "src/%s/%s.cpp" % (lib_dir, project_def["LIB"]["FILENAME"]),
@@ -122,6 +137,7 @@ FILES_TO_RENDER = [
         "include/lib/presenter/sample_presenter.h",
         proj_path + "include/%s/presenter/sample_presenter.h" % (lib_dir),
     ),
+
 ]
 
 for from_, to_ in FILES_TO_RENDER:
@@ -147,3 +163,10 @@ if is_fmt:
 if is_spdlog:
     GitAddSubModule("./tmp", "https://github.com/gabime/spdlog.git", "extern/spdlog")
     GitCheckoutSubModule("./tmp/extern/spdlog", "76fb40d9")
+
+if is_wxwidgets:
+    GitAddSubModule("./tmp", "https://github.com/wxWidgets/wxWidgets.git", "extern/wxWidgets")
+    GitCheckoutSubModule("./tmp/extern/wxWidgets", "v3.2.0")
+    GitInitSubModule("./tmp/extern/wxWidgets")
+    GitUpdateSubModule("./tmp/extern/wxWidgets")
+

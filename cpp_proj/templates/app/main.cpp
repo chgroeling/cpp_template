@@ -4,15 +4,18 @@
 {% if EXTERN.spdlog %}
 #include <spdlog/spdlog.h>
 {% endif %}
+{% if EXTERN.wxWidgets %}
+#include <wx/wx.h>
+{% endif %}
 
 #include <memory>
 #include <iostream>
 
 #include "{{LIB.DIR}}/controller/sample_controller.h"
+#include "{{LIB.DIR}}/db/sample_repository.h"
 #include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
 #include "{{LIB.DIR}}/presenter/sample_presenter.h"
 #include "{{LIB.DIR}}/use_cases/sample_interactor.h"
-#include "{{LIB.DIR}}/db/sample_repository.h"
 
 {% if EXTERN.spdlog%}
 void log_test() {
@@ -30,7 +33,7 @@ void log_test() {
 }
 {% endif %}
 
-int main(int argc, const char* argv[]) {
+void test() {
   std::cout << "App: Hello World !!!\n";
   {{LIB.DIR}}::{{LIB.CLASS}} lib;
 
@@ -54,3 +57,35 @@ int main(int argc, const char* argv[]) {
 
   sample_controller->DoSomething();
 }
+
+{% if not EXTERN.wxWidgets %}
+int main(int argc, const char* argv[]) {
+  test();
+}
+{% else %}
+class Simple : public wxFrame {
+public:
+  Simple(const wxString &title);
+};
+
+Simple::Simple(const wxString &title)
+    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 150)) {
+  Centre();
+}
+
+class MyApp : public wxApp {
+public:
+  virtual bool OnInit();
+};
+
+IMPLEMENT_APP(MyApp)
+
+bool MyApp::OnInit() {
+  test();
+  Simple *simple = new Simple(wxT("Simple"));
+  simple->Show(true);
+
+  return true;
+}
+{% endif %}
+

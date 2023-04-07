@@ -7,17 +7,21 @@ project(
   {{PROJECT_NAME}} 
   VERSION {{PROJECT_VERSION}}
   DESCRIPTION "{{PROJECT_DESCRIPTION}}"
-  LANGUAGES CXX)
+  LANGUAGES CXX C)
 
 set (CMAKE_CXX_STANDARD 20)
-
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   # Optionally set things like CMAKE_CXX_STANDARD, CMAKE_POSITION_INDEPENDENT_CODE here
 
+{% if EXTERN.wxWidgets%}
+  # Cxx extensions(aka -std=gnu++20) needed by wxWidgets compiling on mac
+  set(CMAKE_CXX_EXTENSIONS ON)
+{% else %}
   # Let's ensure -std=c++xx instead of -std=g++xx
   set(CMAKE_CXX_EXTENSIONS OFF)
+{% endif %}
 
   # Let's nicely support folders in IDEs
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -75,6 +79,13 @@ add_subdirectory(extern/pcre2)
 target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern/pcre2/ )
 {% endif %}
 
+{% if EXTERN.wxWidgets%}
+# --------------
+# wxWidgets
+# --------------
+add_subdirectory(extern/wxWidgets EXCLUDE_FROM_ALL)
+
+{% endif %}
 # --------------
 add_subdirectory(src)
 
