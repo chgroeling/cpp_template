@@ -51,14 +51,15 @@ add_subdirectory(extern/cxxopts)
 # --------------
 # FMT
 # --------------
-add_subdirectory(extern/fmt)
+add_subdirectory(extern/fmt EXCLUDE_FROM_ALL)
+
 {% endif %}
 {% if EXTERN.spdlog%}
 # --------------
 # SPDLOG 
 # --------------
 set(SPDLOG_FMT_EXTERNAL ON) # Don't use internal fmt. Its provided directly!
-add_subdirectory(extern/spdlog)
+add_subdirectory(extern/spdlog EXCLUDE_FROM_ALL)
 {% endif %}
 {% if EXTERN.pcre2%}
 # --------------

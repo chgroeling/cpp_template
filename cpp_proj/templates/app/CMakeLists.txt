@@ -8,3 +8,6 @@ target_link_libraries({{APP.TARGET}} PUBLIC {{LIB.DIR}})
 target_link_libraries({{APP.TARGET}} PUBLIC fmt)
 {% endif %}
 
+{% if EXTERN.spdlog%}
+target_link_libraries({{APP.TARGET}} PUBLIC spdlog)
+{% endif %}

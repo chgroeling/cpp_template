@@ -23,7 +23,7 @@ def GitCheckoutSubModule(repoDir, hash):
 
 
 project_def = {
-    "PROJECT_NAME": "cpp_template",
+    "PROJECT_NAME": "test_project",
     "PROJECT_VERSION": "0.3",
     "PROJECT_DESCRIPTION": "Test Project",
     "APP": {
@@ -40,7 +40,7 @@ project_def = {
         "googletest": False,
         "cxx_opts": False,
         "fmt": True,
-        "spdlog": False,
+        "spdlog": True,
         "PCRE2": False,
     },
 }
@@ -66,6 +66,7 @@ def create(template_name, filepos):
 proj_path = "./tmp/"
 app_dir = project_def["APP"]["DIR"]
 is_fmt = project_def["EXTERN"]["fmt"]
+is_spdlog = project_def["EXTERN"]["spdlog"]
 
 # Create directory structure
 Path(proj_path + "%s/" % (app_dir)).mkdir(parents=True, exist_ok=True)
@@ -79,7 +80,7 @@ Path(proj_path + "include/%s/" % (project_def["LIB"]["DIR"])).mkdir(
 )
 
 
-if is_fmt:
+if is_fmt or is_spdlog:
     Path(proj_path + "extern").mkdir(parents=True, exist_ok=True)
 
 # ----------------------------------------------------------------------------
@@ -109,3 +110,7 @@ GitInit("./tmp")
 if is_fmt:
     GitAddSubModule("./tmp", "https://github.com/fmtlib/fmt.git", "extern/fmt")
     GitCheckoutSubModule("./tmp/extern/fmt", "b6f4ceae")
+
+if is_spdlog:
+    GitAddSubModule("./tmp", "https://github.com/gabime/spdlog.git", "extern/spdlog")
+    GitCheckoutSubModule("./tmp/extern/spdlog", "76fb40d9")

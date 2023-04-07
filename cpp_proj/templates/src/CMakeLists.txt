@@ -11,5 +11,7 @@ target_include_directories({{LIB.DIR}} PUBLIC ../include)
 target_link_libraries({{LIB.DIR}} PUBLIC fmt)
 {% endif %}
 
-
+{% if EXTERN.spdlog%}
+target_link_libraries({{LIB.DIR}} PUBLIC spdlog)
+{% endif %}
 
