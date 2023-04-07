@@ -1,12 +1,12 @@
 cmake_minimum_required (VERSION 3.2.0)
 
-include(cmake/print_target_properties.cmake)
+#include(cmake/print_target_properties.cmake)
 
 # Project name and a few useful settings. Other commands can pick up the results
 project(
   {{PROJECT_NAME}} 
-  VERSION 0.1
-  DESCRIPTION "An example project with CMake"
+  VERSION {{PROJECT_VERSION}}
+  DESCRIPTION "{{PROJECT_DESCRIPTION}}"
   LANGUAGES CXX)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -23,12 +23,14 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   # Let's nicely support folders in IDEs
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+{% if EXTERN.googletest%}
   # Testing only available if this is the main app
   # Note this needs to be done in the main CMakeLists
   # since it calls enable_testing, which must be in the
   # main CMakeLists.
   include(CTest)
-
+{% endif %}
+{% if EXTERN.doxygen %}
   # Docs only available if this is the main app
   find_package(Doxygen)
   if(Doxygen_FOUND)
@@ -36,24 +38,30 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   else()
     message(STATUS "Doxygen not found, not building docs")
   endif()
+{% endif %}
 endif()
 
+{# CXXOOPTS #}
+{% if EXTERN.cxx_opts %}
 # --------------
 # CXXOPTS
 # --------------
 add_subdirectory(extern/cxxopts)
-
+{% endif %}
+{% if EXTERN.fmt%}
 # --------------
 # FMT
 # --------------
 add_subdirectory(extern/fmt)
-
+{% endif %}
+{% if EXTERN.spdlog%}
 # --------------
 # SPDLOG 
 # --------------
 set(SPDLOG_FMT_EXTERNAL ON) # Don't use internal fmt. Its provided directly!
 add_subdirectory(extern/spdlog)
-
+{% endif %}
+{% if EXTERN.pcre2%}
 # --------------
 # PCRE
 # --------------
@@ -65,16 +73,17 @@ set(PCRE2_SHOW_REPORT OFF CACHE BOOL "")
 add_subdirectory(extern/pcre2)
 # Add missing include directories that the library can be used by this project
 target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern/pcre2/ )
+{% endif %}
 
 # --------------
-add_subdirectory(src)
-#print_target_properties(regscan)
+#add_subdirectory(src)
 
 add_subdirectory(app)
 
-
+{% if EXTERN.googletest%}
 # Testing only available if this is the main app
 if ((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) AND BUILD_TESTING)
   include(GoogleTest)
   add_subdirectory(tests)
 endif()
+{% endif %}
