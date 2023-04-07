@@ -5,7 +5,6 @@
 
 #include "{{LIB.DIR}}/use_cases/i_sample_interactor_output.h"
 
-
 namespace {{LIB.DIR}} {
 namespace presenter {
 

@@ -12,10 +12,10 @@
 #include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
 #include "{{LIB.DIR}}/presenter/sample_presenter.h"
 #include "{{LIB.DIR}}/use_cases/sample_interactor.h"
+#include "{{LIB.DIR}}/db/sample_repository.h"
 
 {% if EXTERN.spdlog%}
-void log_test() 
-{
+void log_test() {
   spdlog::info("Welcome to spdlog!");
   spdlog::error("Some error message with arg: {}", 1);
   
@@ -41,9 +41,12 @@ int main(int argc, const char* argv[]) {
 {% if EXTERN.spdlog%}
   log_test();
 {% endif %}
+
+  auto sample_repository = std::make_shared<{{LIB.DIR}}::db::SampleRepository>();
+
   auto sample_presenter = std::make_shared<{{LIB.DIR}}::presenter::SamplePresenter>();
 
-  auto sample_interactor = std::make_shared<{{LIB.DIR}}::use_cases::SampleInteractor>();
+  auto sample_interactor = std::make_shared<{{LIB.DIR}}::use_cases::SampleInteractor>(sample_repository);
   sample_interactor->SetOutput(sample_presenter);
 
   auto sample_controller = std::make_shared<{{LIB.DIR}}::controller::SampleController>();

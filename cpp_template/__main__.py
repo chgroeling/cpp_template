@@ -60,101 +60,81 @@ def create(template_name, filepos):
 
 
 # ----------------------------------------------------------------------------
-# CREATE DIRECTORY STRUCTURE
+# SHORT NAMES
 # ----------------------------------------------------------------------------
 
 proj_path = "./tmp/"
 app_dir = project_def["APP"]["DIR"]
+lib_dir = project_def["LIB"]["DIR"]
 is_fmt = project_def["EXTERN"]["fmt"]
 is_spdlog = project_def["EXTERN"]["spdlog"]
-
-# Create directory structure
-Path(proj_path + "%s/" % (app_dir)).mkdir(parents=True, exist_ok=True)
-Path(proj_path + "src/").mkdir(parents=True, exist_ok=True)
-Path(proj_path + "src/%s/" % (project_def["LIB"]["DIR"])).mkdir(
-    parents=True, exist_ok=True
-)
-Path(proj_path + "include/").mkdir(parents=True, exist_ok=True)
-Path(proj_path + "include/%s/" % (project_def["LIB"]["DIR"])).mkdir(
-    parents=True, exist_ok=True
-)
-Path(proj_path + "include/%s/entities/" % (project_def["LIB"]["DIR"])).mkdir(
-    parents=True, exist_ok=True
-)
-Path(proj_path + "include/%s/use_cases/" % (project_def["LIB"]["DIR"])).mkdir(
-    parents=True, exist_ok=True
-)
-Path(proj_path + "include/%s/presenter/" % (project_def["LIB"]["DIR"])).mkdir(
-    parents=True, exist_ok=True
-)
-Path(proj_path + "include/%s/controller/" % (project_def["LIB"]["DIR"])).mkdir(
-    parents=True, exist_ok=True
-)
-
-
-if is_fmt or is_spdlog:
-    Path(proj_path + "extern").mkdir(parents=True, exist_ok=True)
 
 # ----------------------------------------------------------------------------
 # RENDER TEMPLATES AND WRITE THEM INTO THE STRUCTURE
 # ----------------------------------------------------------------------------
-create("gitignore", proj_path + ".gitignore")
-create("CMakeLists.txt", proj_path + "CMakeLists.txt")
-create("app/CMakeLists.txt", proj_path + "%s/CMakeLists.txt" % (app_dir))
-create("src/CMakeLists.txt", proj_path + "src/CMakeLists.txt")
-create("app/main.cpp", proj_path + "%s/main.cpp" % (app_dir))
-create(
-    "src/lib/lib.cpp",
-    proj_path
-    + "src/%s/%s.cpp" % (project_def["LIB"]["DIR"], project_def["LIB"]["FILENAME"]),
-)
-create(
-    "include/lib/lib.h",
-    proj_path
-    + "include/%s/%s.h" % (project_def["LIB"]["DIR"], project_def["LIB"]["FILENAME"]),
-)
+FILES_TO_RENDER = [
+    ("gitignore", proj_path + ".gitignore"),
+    ("CMakeLists.txt", proj_path + "CMakeLists.txt"),
+    ("app/CMakeLists.txt", proj_path + "%s/CMakeLists.txt" % (app_dir)),
+    ("src/CMakeLists.txt", proj_path + "src/CMakeLists.txt"),
+    ("app/main.cpp", proj_path + "%s/main.cpp" % (app_dir)),
+    (
+        "src/lib/lib.cpp",
+        proj_path + "src/%s/%s.cpp" % (lib_dir, project_def["LIB"]["FILENAME"]),
+    ),
+    (
+        "include/lib/lib.h",
+        proj_path + "include/%s/%s.h" % (lib_dir, project_def["LIB"]["FILENAME"]),
+    ),
+    (
+        "include/lib/entities/sample_interactor_request.h",
+        proj_path + "include/%s/entities/sample_interactor_request.h" % (lib_dir),
+    ),
+    (
+        "include/lib/entities/sample_interactor_response.h",
+        proj_path + "include/%s/entities/sample_interactor_response.h" % (lib_dir),
+    ),
+    (
+        "include/lib/use_cases/i_sample_interactor_input.h",
+        proj_path + "include/%s/use_cases/i_sample_interactor_input.h" % (lib_dir),
+    ),
+    (
+        "include/lib/use_cases/i_sample_interactor_output.h",
+        proj_path + "include/%s/use_cases/i_sample_interactor_output.h" % (lib_dir),
+    ),
+    (
+        "include/lib/use_cases/i_sample_repository.h",
+        proj_path + "include/%s/use_cases/i_sample_repository.h" % (lib_dir),
+    ),
+    (
+        "include/lib/db/sample_repository.h",
+        proj_path + "include/%s/db/sample_repository.h" % (lib_dir),
+    ),
+    (
+        "include/lib/use_cases/sample_interactor.h",
+        proj_path + "include/%s/use_cases/sample_interactor.h" % (lib_dir),
+    ),
+    (
+        "include/lib/controller/sample_controller.h",
+        proj_path + "include/%s/controller/sample_controller.h" % (lib_dir),
+    ),
+    (
+        "include/lib/presenter/sample_presenter.h",
+        proj_path + "include/%s/presenter/sample_presenter.h" % (lib_dir),
+    ),
+]
 
-create(
-    "include/lib/entities/sample_interactor_request.h",
-    proj_path
-    + "include/%s/entities/sample_interactor_request.h" % (project_def["LIB"]["DIR"]),
-)
+for from_, to_ in FILES_TO_RENDER:
+    to_dir = os.path.dirname(to_)
+    Path(to_dir).mkdir(parents=True, exist_ok=True)
+    create(from_, to_)
 
-create(
-    "include/lib/entities/sample_interactor_response.h",
-    proj_path
-    + "include/%s/entities/sample_interactor_response.h" % (project_def["LIB"]["DIR"]),
-)
 
-create(
-    "include/lib/use_cases/i_sample_interactor_input.h",
-    proj_path
-    + "include/%s/use_cases/i_sample_interactor_input.h" % (project_def["LIB"]["DIR"]),
-)
+# create extern directory when libraries are selected
+if is_fmt or is_spdlog:
+    Path(proj_path + "extern").mkdir(parents=True, exist_ok=True)
 
-create(
-    "include/lib/use_cases/i_sample_interactor_output.h",
-    proj_path
-    + "include/%s/use_cases/i_sample_interactor_output.h" % (project_def["LIB"]["DIR"]),
-)
 
-create(
-    "include/lib/use_cases/sample_interactor.h",
-    proj_path
-    + "include/%s/use_cases/sample_interactor.h" % (project_def["LIB"]["DIR"]),
-)
-
-create(
-    "include/lib/controller/sample_controller.h",
-    proj_path
-    + "include/%s/controller/sample_controller.h" % (project_def["LIB"]["DIR"]),
-)
-
-create(
-    "include/lib/presenter/sample_presenter.h",
-    proj_path
-    + "include/%s/presenter/sample_presenter.h" % (project_def["LIB"]["DIR"]),
-)
 # ----------------------------------------------------------------------------
 # Initialize Git Repositories
 # ----------------------------------------------------------------------------
