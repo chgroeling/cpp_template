@@ -13,12 +13,15 @@ set (CMAKE_CXX_STANDARD 20)
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  # Optionally set things like CMAKE_CXX_STANDARD, CMAKE_POSITION_INDEPENDENT_CODE here
 
 {% if EXTERN.wxWidgets%}
+  # Optionally set things like CMAKE_CXX_STANDARD, CMAKE_POSITION_INDEPENDENT_CODE here
+
   # Cxx extensions(aka -std=gnu++20) needed by wxWidgets compiling on mac
   set(CMAKE_CXX_EXTENSIONS ON)
 {% else %}
+  # Optionally set things like CMAKE_CXX_STANDARD, CMAKE_POSITION_INDEPENDENT_CODE here
+
   # Let's ensure -std=c++xx instead of -std=g++xx
   set(CMAKE_CXX_EXTENSIONS OFF)
 {% endif %}

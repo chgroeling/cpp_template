@@ -15,15 +15,18 @@ def GitAddSubModule(repoDir, url, path):
     p = subprocess.Popen(cmd, cwd=repoDir)
     p.wait()
 
+
 def GitInitSubModule(repoDir):
     cmd = ["git", "submodule", "init"]
     p = subprocess.Popen(cmd, cwd=repoDir)
     p.wait()
 
+
 def GitUpdateSubModule(repoDir):
     cmd = ["git", "submodule", "update"]
     p = subprocess.Popen(cmd, cwd=repoDir)
     p.wait()
+
 
 def GitCheckoutSubModule(repoDir, hash):
     cmd = ["git", "checkout", hash]
@@ -32,26 +35,26 @@ def GitCheckoutSubModule(repoDir, hash):
 
 
 project_def = {
-    "PROJECT_NAME": "fwgui",
+    "PROJECT_NAME": "Bitstream",
     "PROJECT_VERSION": "0.1",
-    "PROJECT_DESCRIPTION": "Firmware gui",
+    "PROJECT_DESCRIPTION": "Bitstream librarj",
     "APP": {
-        "DIR": "fwgui",  # The project will be generated with one app in the given directory
-        "TARGET": "fwgui",  # Thats the name of the target
+        "DIR": "app_bs",  # The project will be generated with one app in the given directory
+        "TARGET": "app_bs",  # Thats the name of the target
     },
     "LIB": {  # The project will be generated with one library
-        "DIR": "gui_model",  # This is the name of the library directory
-        "FILENAME": "gui_model",  # The library directory contains one cpp module with this name
-        "CLASS": "GuiModel",  # This is the name of the class defined in the generated cpp module
+        "DIR": "bitstream",  # This is the name of the library directory
+        "FILENAME": "bitstream",  # The library directory contains one cpp module with this name
+        "CLASS": "BitStream",  # This is the name of the class defined in the generated cpp module
     },
     "EXTERN": {
         "doxygen": False,
-        "googletest": False,
+        "googletest": True,
         "cxx_opts": False,
         "fmt": True,
         "spdlog": True,
         "PCRE2": False,
-        "wxWidgets" : True,
+        "wxWidgets": False,
     },
 }
 
@@ -79,6 +82,7 @@ lib_dir = project_def["LIB"]["DIR"]
 is_fmt = project_def["EXTERN"]["fmt"]
 is_spdlog = project_def["EXTERN"]["spdlog"]
 is_wxwidgets = project_def["EXTERN"]["wxWidgets"]
+is_googletest = project_def["EXTERN"]["googletest"]
 
 # ----------------------------------------------------------------------------
 # RENDER TEMPLATES AND WRITE THEM INTO THE STRUCTURE
@@ -137,17 +141,42 @@ FILES_TO_RENDER = [
         "include/lib/presenter/sample_presenter.h",
         proj_path + "include/%s/presenter/sample_presenter.h" % (lib_dir),
     ),
-
+    (
+        "tests/CMakeLists.txt",
+        proj_path + "tests/CMakeLists.txt",
+    ),
 ]
+
 
 for from_, to_ in FILES_TO_RENDER:
     to_dir = os.path.dirname(to_)
     Path(to_dir).mkdir(parents=True, exist_ok=True)
     create(from_, to_)
 
+if is_googletest:
+    TESTS_TO_RENDER = [
+        (
+            "tests/test1.cpp",
+            proj_path + "tests/test1.cpp",
+        ),
+        (
+            "tests/test2.cpp",
+            proj_path + "tests/test2.cpp",
+        ),
+        (
+            "tests/lib/use_cases/test_sample_interactor.cpp",
+            proj_path + "tests/%s/use_cases/test_sample_interactor.cpp" %(lib_dir),
+        ),
+
+    ]
+
+    for from_, to_ in TESTS_TO_RENDER:
+        to_dir = os.path.dirname(to_)
+        Path(to_dir).mkdir(parents=True, exist_ok=True)
+        create(from_, to_)
 
 # create extern directory when libraries are selected
-if is_fmt or is_spdlog:
+if is_fmt or is_spdlog or is_googletest or is_wxwidgets:
     Path(proj_path + "extern").mkdir(parents=True, exist_ok=True)
 
 
@@ -158,15 +187,22 @@ GitInit("./tmp")
 
 if is_fmt:
     GitAddSubModule("./tmp", "https://github.com/fmtlib/fmt.git", "extern/fmt")
-    GitCheckoutSubModule("./tmp/extern/fmt", "b6f4ceae")
+    GitCheckoutSubModule("./tmp/extern/fmt", "8.1.1")
 
 if is_spdlog:
     GitAddSubModule("./tmp", "https://github.com/gabime/spdlog.git", "extern/spdlog")
-    GitCheckoutSubModule("./tmp/extern/spdlog", "76fb40d9")
+    GitCheckoutSubModule("./tmp/extern/spdlog", "v1.10.0")
 
 if is_wxwidgets:
-    GitAddSubModule("./tmp", "https://github.com/wxWidgets/wxWidgets.git", "extern/wxWidgets")
+    GitAddSubModule(
+        "./tmp", "https://github.com/wxWidgets/wxWidgets.git", "extern/wxWidgets"
+    )
     GitCheckoutSubModule("./tmp/extern/wxWidgets", "v3.2.0")
     GitInitSubModule("./tmp/extern/wxWidgets")
     GitUpdateSubModule("./tmp/extern/wxWidgets")
 
+if is_googletest:
+    GitAddSubModule(
+        "./tmp", "https://github.com/google/googletest.git", "extern/googletest"
+    )
+    GitCheckoutSubModule("./tmp/extern/googletest", "release-1.12.1")
