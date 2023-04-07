@@ -96,16 +96,20 @@ target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern
 add_subdirectory(extern/wxWidgets EXCLUDE_FROM_ALL)
 
 {% endif %}
+{% if PARTS.lib%}
 # ------------------------------------
 # Library: {{LIB.DIR}} 
 # ------------------------------------
 add_subdirectory(src)
 
+{% endif %}
+{% if PARTS.app%}
 # ------------------------------------
 # Application: {{APP.TARGET}} 
 # ------------------------------------
 add_subdirectory({{APP.DIR}})
 
+{% endif %}
 {% if EXTERN.googletest%}
 # Testing only available if this is the main app
 if ((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) AND BUILD_TESTING)

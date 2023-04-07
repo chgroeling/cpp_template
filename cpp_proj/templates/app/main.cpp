@@ -13,7 +13,7 @@
 #include <cxxopts.hpp>
 {% endif %}
 
-{% if GENERATOR.cleanarchitecture %}
+{% if PARTS.cleanarchitecture %}
 #include "{{LIB.DIR}}/controller/sample_controller.h"
 #include "{{LIB.DIR}}/db/sample_repository.h"
 #include "{{LIB.DIR}}/presenter/sample_presenter.h"
@@ -98,7 +98,7 @@ int parse_command_line(int argc, const char *argv[]) {
 }
 
 {% endif %}
-{% if GENERATOR.cleanarchitecture %}
+{% if PARTS.cleanarchitecture %}
 void TestCleanArchitecture() {
   auto sample_repository = std::make_shared<{{LIB.DIR}}::db::SampleRepository>();
 
@@ -125,7 +125,7 @@ int main(int argc, const char *argv[]) {
   {{LIB.DIR}}::{{LIB.CLASS}} lib;
   lib.PrintHello();
 
-{% if GENERATOR.cleanarchitecture %}
+{% if PARTS.cleanarchitecture %}
   // Test clean architecture implementation
   TestCleanArchitecture();
 
@@ -171,7 +171,7 @@ bool MyApp::OnInit() {
   {{LIB.DIR}}::{{LIB.CLASS}} lib;
   lib.PrintHello();
 
-{% if GENERATOR.cleanarchitecture %}
+{% if PARTS.cleanarchitecture %}
   // Test clean architecture implementation
   TestCleanArchitecture();
 

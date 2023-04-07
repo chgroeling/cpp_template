@@ -1,4 +1,4 @@
-if (CMAKE_GENERATOR MATCHES "Visual Studio")
+if (CMAKE_PARTS MATCHES "Visual Studio")
     # For Windows: Prevent overriding the parent project's compiler/linker settings
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 endif()
@@ -16,7 +16,12 @@ macro(package_add_test TESTNAME)
     add_executable(${TESTNAME} ${ARGN})
     # link the Google test infrastructure, mocking library, and a default main function to
     # the test executable.  Remove g_test_main if writing your own main function.
-    target_link_libraries(${TESTNAME} gtest gmock gtest_main {{LIB.DIR}})
+    target_link_libraries(${TESTNAME} PUBLIC gtest gmock)
+    target_link_libraries(${TESTNAME} PUBLIC gtest_main)
+{% if PARTS.lib%}
+    target_link_libraries(${TESTNAME} PUBLIC {{LIB.DIR}})
+{% endif %}
+
     # gtest_discover_tests replaces gtest_add_tests,
     # see https://cmake.org/cmake/help/v3.10/module/GoogleTest.html for more options to pass to it
     gtest_discover_tests(${TESTNAME}
@@ -28,9 +33,13 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 set(TEST_SOURCES
+{% if PARTS.test_basic%}
     test_basic.cpp
+{% endif %}
+{% if PARTS.test_lib%}
     test_{{LIB.DIR}}.cpp
-{% if GENERATOR.cleanarchitecture%}
+{% endif %}
+{% if PARTS.cleanarchitecture%}
     {{LIB.DIR}}/use_cases/test_sample_interactor.cpp
 {% endif %}
 )

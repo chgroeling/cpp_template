@@ -1,7 +1,7 @@
 # Create the library 
 set ({{LIB.DIR|upper}}_SOURCES 
   {{LIB.DIR}}/{{LIB.FILENAME}}.cpp
-{% if GENERATOR.cleanarchitecture%}
+{% if PARTS.cleanarchitecture%}
   {{LIB.DIR}}/use_cases/sample_interactor.cpp
   {{LIB.DIR}}/controller/sample_controller.cpp
   {{LIB.DIR}}/presenter/sample_presenter.cpp
