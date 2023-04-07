@@ -6,4 +6,10 @@ add_library({{LIB.DIR}}
 # Add the include directories and make them known to other targets (PUBLIC)
 target_include_directories({{LIB.DIR}} PUBLIC ../include)
 
+# Link extern libraries
+{% if EXTERN.fmt%}
+target_link_libraries({{LIB.DIR}} PUBLIC fmt)
+{% endif %}
+
+
 
