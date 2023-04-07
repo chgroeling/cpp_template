@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
+#include "{{LIB.DIR}}/use_cases/sample_interactor.h"
 
 
 {% if EXTERN.spdlog%}
@@ -38,4 +39,5 @@ int main(int argc, const char* argv[]) {
 {% if EXTERN.spdlog%}
   log_test();
 {% endif %}
+  use_cases::SampleInteractor sample;
 }

@@ -78,6 +78,12 @@ Path(proj_path + "include/").mkdir(parents=True, exist_ok=True)
 Path(proj_path + "include/%s/" % (project_def["LIB"]["DIR"])).mkdir(
     parents=True, exist_ok=True
 )
+Path(proj_path + "include/%s/entities/" % (project_def["LIB"]["DIR"])).mkdir(
+    parents=True, exist_ok=True
+)
+Path(proj_path + "include/%s/use_cases/" % (project_def["LIB"]["DIR"])).mkdir(
+    parents=True, exist_ok=True
+)
 
 
 if is_fmt or is_spdlog:
@@ -102,6 +108,35 @@ create(
     + "include/%s/%s.h" % (project_def["LIB"]["DIR"], project_def["LIB"]["FILENAME"]),
 )
 
+create(
+    "include/lib/entities/sample_interactor_request.h",
+    proj_path
+    + "include/%s/entities/sample_interactor_request.h" % (project_def["LIB"]["DIR"]),
+)
+
+create(
+    "include/lib/entities/sample_interactor_response.h",
+    proj_path
+    + "include/%s/entities/sample_interactor_response.h" % (project_def["LIB"]["DIR"]),
+)
+
+create(
+    "include/lib/use_cases/i_sample_interactor_input.h",
+    proj_path
+    + "include/%s/use_cases/i_sample_interactor_input.h" % (project_def["LIB"]["DIR"]),
+)
+
+create(
+    "include/lib/use_cases/i_sample_interactor_output.h",
+    proj_path
+    + "include/%s/use_cases/i_sample_interactor_output.h" % (project_def["LIB"]["DIR"]),
+)
+
+create(
+    "include/lib/use_cases/sample_interactor.h",
+    proj_path
+    + "include/%s/use_cases/sample_interactor.h" % (project_def["LIB"]["DIR"]),
+)
 # ----------------------------------------------------------------------------
 # Initialize Git Repositories
 # ----------------------------------------------------------------------------
