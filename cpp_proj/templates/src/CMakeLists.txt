@@ -1,5 +1,5 @@
 # Create the library 
-add_library({{LIB.DIR}}
+set ({{LIB.DIR|upper}}_SOURCES 
   {{LIB.DIR}}/{{LIB.FILENAME}}.cpp
 {% if GENERATOR.cleanarchitecture%}
   {{LIB.DIR}}/use_cases/sample_interactor.cpp
@@ -7,6 +7,8 @@ add_library({{LIB.DIR}}
   {{LIB.DIR}}/presenter/sample_presenter.cpp
 {% endif %}
 )
+
+add_library({{LIB.DIR}} ${{"{"}}{{LIB.DIR|upper}}_SOURCES})
 
 # Add the include directories and make them known to other targets (PUBLIC)
 target_include_directories({{LIB.DIR}} PUBLIC ../include)

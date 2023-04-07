@@ -33,6 +33,7 @@ void LogTest() {
   spdlog::set_level(spdlog::level::debug); // Set global log level to debug
   spdlog::debug("This message should be displayed.."); 
 }
+
 {% endif %}
 {% if GENERATOR.cleanarchitecture %}
 void TestCleanArchitecture() {
@@ -50,7 +51,6 @@ void TestCleanArchitecture() {
 }
 
 {% endif %}
-
 {% if not EXTERN.wxWidgets %}
 int main(int argc, const char *argv[]) {
   std::cout << "App: Hello World !!!\n";

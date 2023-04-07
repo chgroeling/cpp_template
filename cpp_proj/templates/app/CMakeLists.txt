@@ -1,4 +1,8 @@
-add_executable({{APP.TARGET}} main.cpp)
+set(APP_SOURCES
+  main.cpp
+)
+
+add_executable({{APP.TARGET}} ${APP_SOURCES})
 
 # Link local libraries
 target_link_libraries({{APP.TARGET}} PUBLIC {{LIB.DIR}})
