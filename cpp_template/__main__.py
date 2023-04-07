@@ -4,36 +4,6 @@ import os
 import subprocess
 
 
-def GitInit(repoDir):
-    cmd = ["git", "init"]
-    p = subprocess.Popen(cmd, cwd=repoDir)
-    p.wait()
-
-
-def GitAddSubModule(repoDir, url, path):
-    cmd = ["git", "submodule", "add", url, path]
-    p = subprocess.Popen(cmd, cwd=repoDir)
-    p.wait()
-
-
-def GitInitSubModule(repoDir):
-    cmd = ["git", "submodule", "init"]
-    p = subprocess.Popen(cmd, cwd=repoDir)
-    p.wait()
-
-
-def GitUpdateSubModule(repoDir):
-    cmd = ["git", "submodule", "update"]
-    p = subprocess.Popen(cmd, cwd=repoDir)
-    p.wait()
-
-
-def GitCheckoutSubModule(repoDir, hash):
-    cmd = ["git", "checkout", hash]
-    p = subprocess.Popen(cmd, cwd=repoDir)
-    p.wait()
-
-
 project_def = {
     "PROJECT_NAME": "Bitstream",
     "PROJECT_VERSION": "0.1",
@@ -61,10 +31,30 @@ project_def = {
     },
 }
 
-env = Environment(
-    loader=PackageLoader("cpp_proj"), trim_blocks=True, lstrip_blocks=True
-)
+def GitInit(repoDir):
+    cmd = ["git", "init"]
+    p = subprocess.Popen(cmd, cwd=repoDir)
+    p.wait()
 
+def GitAddSubModule(repoDir, url, path):
+    cmd = ["git", "submodule", "add", url, path]
+    p = subprocess.Popen(cmd, cwd=repoDir)
+    p.wait()
+
+def GitInitSubModule(repoDir):
+    cmd = ["git", "submodule", "init"]
+    p = subprocess.Popen(cmd, cwd=repoDir)
+    p.wait()
+
+def GitUpdateSubModule(repoDir):
+    cmd = ["git", "submodule", "update"]
+    p = subprocess.Popen(cmd, cwd=repoDir)
+    p.wait()
+
+def GitCheckoutSubModule(repoDir, hash):
+    cmd = ["git", "checkout", hash]
+    p = subprocess.Popen(cmd, cwd=repoDir)
+    p.wait()
 
 def create(template_name, filepos):
     template_ = env.get_template(template_name)
@@ -74,6 +64,10 @@ def create(template_name, filepos):
     with open(filepos, "w") as fh:
         fh.write(out_template)
 
+
+env = Environment(
+    loader=PackageLoader("cpp_proj"), trim_blocks=True, lstrip_blocks=True
+)
 
 # ----------------------------------------------------------------------------
 # SHORT NAMES

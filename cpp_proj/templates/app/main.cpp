@@ -20,7 +20,7 @@
 #include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
 
 {% if EXTERN.spdlog%}
-void log_test() {
+void LogTest() {
   spdlog::info("Welcome to spdlog!");
   spdlog::error("Some error message with arg: {}", 1);
   
@@ -35,7 +35,7 @@ void log_test() {
 }
 {% endif %}
 {% if GENERATOR.cleanarchitecture %}
-void test_clean_architecture() {
+void TestCleanArchitecture() {
   auto sample_repository = std::make_shared<{{LIB.DIR}}::db::SampleRepository>();
 
   auto sample_presenter = std::make_shared<{{LIB.DIR}}::presenter::SamplePresenter>();
@@ -52,19 +52,19 @@ void test_clean_architecture() {
 {% endif %}
 
 {% if not EXTERN.wxWidgets %}
-int main(int argc, const char* argv[]) {
+int main(int argc, const char *argv[]) {
   std::cout << "App: Hello World !!!\n";
   {{LIB.DIR}}::{{LIB.CLASS}} lib;
 
   lib.PrintHello();
 {% if GENERATOR.cleanarchitecture %}
-  test_clean_architecture();
+  TestCleanArchitecture();
 {% endif %}
 {% if EXTERN.fmt %}
   fmt::print("App: Hello FMT\n");
 {% endif %}
 {% if EXTERN.spdlog%}
-  log_test();
+  LogTest();
 {% endif %}
 }
 {% else %}
@@ -91,13 +91,13 @@ bool MyApp::OnInit() {
 
   lib.PrintHello();
 {% if GENERATOR.cleanarchitecture %}
-  test_clean_architecture();
+  TestCleanArchitecture();
 {% endif %}
 {% if EXTERN.fmt %}
   fmt::print("App: Hello FMT\n");
 {% endif %}
 {% if EXTERN.spdlog%}
-  log_test();
+  LogTest();
 {% endif %}
   Simple *simple = new Simple(wxT("Simple"));
   simple->Show(true);
