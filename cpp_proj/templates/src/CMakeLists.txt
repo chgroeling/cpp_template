@@ -1,6 +1,6 @@
 # Create the library 
 add_library(lib
-  {{LIB.NAME}}/lib.cpp
+  {{LIB.DIR}}/{{LIB.FILENAME}}.cpp
 )
 
 # Build the library with C++20 
