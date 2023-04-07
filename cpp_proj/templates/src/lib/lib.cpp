@@ -18,4 +18,8 @@ void {{LIB.CLASS}}::PrintHello() {
 {% endif %}
 }
 
+bool {{LIB.CLASS}}::ReturnTrue() { 
+  return true;
+}
+
 } // namespace {{LIB.DIR}}

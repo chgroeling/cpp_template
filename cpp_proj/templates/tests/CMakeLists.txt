@@ -28,8 +28,8 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 set(TEST_SOURCES
-    test1.cpp
-    test2.cpp
+    test_basic.cpp
+    test_{{LIB.DIR}}.cpp
 {% if GENERATOR.cleanarchitecture%}
     {{LIB.DIR}}/use_cases/test_sample_interactor.cpp
 {% endif %}

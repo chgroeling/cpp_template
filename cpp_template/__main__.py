@@ -177,12 +177,12 @@ if is_cleanarchitecture:
 if is_googletest:
     TESTS_TO_RENDER = [
         (
-            "tests/test1.cpp",
-            proj_path + "tests/test1.cpp",
+            "tests/test_basic.cpp",
+            proj_path + "tests/test_basic.cpp",
         ),
         (
-            "tests/test2.cpp",
-            proj_path + "tests/test2.cpp",
+            "tests/test_lib.cpp",
+            proj_path + "tests/test_%s.cpp" % (lib_dir),
         ),
     ]
     if is_cleanarchitecture:
