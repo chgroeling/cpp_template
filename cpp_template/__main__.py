@@ -1,5 +1,12 @@
 from jinja2 import Environment, PackageLoader, select_autoescape
 from pathlib import Path
+import os
+import subprocess
+
+def GitInit(repoDir):
+    cmd = ['git', 'init']
+    p = subprocess.Popen(cmd, cwd=repoDir)
+    p.wait()
 
 project_def = {
     "PROJECT_NAME": "cpp_template",
@@ -32,9 +39,17 @@ def create(template_name, filepos):
 # Create directory structure
 Path("./tmp/app/").mkdir(parents=True, exist_ok=True)
 Path("./tmp/src/").mkdir(parents=True, exist_ok=True)
+Path("./tmp/src/lib/").mkdir(parents=True, exist_ok=True)
 Path("./tmp/include/").mkdir(parents=True, exist_ok=True)
-
+Path("./tmp/include/lib/").mkdir(parents=True, exist_ok=True)
 
 create("CMakeLists.txt", "tmp/CMakeLists.txt")
 create("app/CMakeLists.txt", "tmp/app/CMakeLists.txt")
+create("src/CMakeLists.txt", "tmp/src/CMakeLists.txt")
 create("app/main.cpp", "tmp/app/main.cpp")
+create("src/lib/lib.cpp", "tmp/src/lib/lib.cpp")
+create("include/lib/lib.h", "tmp/include/lib/lib.h")
+
+GitInit("./tmp")
+
+

@@ -76,7 +76,7 @@ target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern
 {% endif %}
 
 # --------------
-#add_subdirectory(src)
+add_subdirectory(src)
 
 add_subdirectory(app)
 
