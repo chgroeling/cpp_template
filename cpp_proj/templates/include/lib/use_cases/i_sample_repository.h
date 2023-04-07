@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace {{LIB.DIR}} {
 namespace use_cases {
 
