@@ -18,4 +18,4 @@ void {{LIB.CLASS}}::PrintHello() {
 {% endif %}
 }
 
-}  // namespace {{LIB.DIR}}
+} // namespace {{LIB.DIR}}

@@ -6,9 +6,13 @@ def Settings( **kwargs ):
               '-I/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2',
               '-I/opt/homebrew/include/wx-3.2',
 {% endif %}
-              '-I./include', 
+{% if EXTERN.googletest%}
+              '-I./extern/googletest/googletest/include', 
+              '-I./extern/googletest/googlemock/include', 
+{% endif %}
               '-I./extern/cxxopts/include', 
               '-I./extern/fmt/include', 
-              '-I./extern/spdlog/include'
+              '-I./extern/spdlog/include',
+              '-I./include', 
             ],
   }
