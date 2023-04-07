@@ -9,12 +9,12 @@ namespace {{LIB.DIR}} {
 namespace presenter {
 
 class SamplePresenter : public use_cases::ISampleInteractorOutput {
- public:
+public:
   void PresentSomething(entities::SampleInteractorResponse response) {
     std::cout << "SamplePresenter::PresentSomething called with response "
               << response.response_data << "\n";
   }
 };
 
-}  // namespace presenter
-}  // namespace {{LIB.DIR}}
+} // namespace presenter
+} // namespace {{LIB.DIR}}

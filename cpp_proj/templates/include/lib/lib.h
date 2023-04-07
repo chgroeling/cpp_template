@@ -4,8 +4,8 @@ namespace {{LIB.DIR}} {
 
 class {{LIB.CLASS}} {
  public:
-   {{LIB.CLASS}}(){};
+  {{LIB.CLASS}}(){};
   void PrintHello();
 };
 
-}  // namespace {{LIB.DIR}}
+} // namespace {{LIB.DIR}}

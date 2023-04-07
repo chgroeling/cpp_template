@@ -10,8 +10,8 @@ namespace {{LIB.DIR}} {
 namespace use_cases {
 
 class SampleInteractor : public ISampleInteractorInput {
- public:
-  SampleInteractor(std::shared_ptr<ISampleRepository> repo): repo_(repo) {}
+public:
+  SampleInteractor(std::shared_ptr<ISampleRepository> repo) : repo_(repo) {}
 
   void SetOutput(std::shared_ptr<ISampleInteractorOutput> output) {
     output_ = output;
@@ -29,7 +29,7 @@ class SampleInteractor : public ISampleInteractorInput {
     }
   };
 
- private:
+private:
   std::shared_ptr<ISampleInteractorOutput> output_;
   std::shared_ptr<ISampleRepository> repo_;
 };

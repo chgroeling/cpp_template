@@ -6,10 +6,10 @@ namespace {{LIB.DIR}} {
 namespace use_cases {
 
 class ISampleInteractorOutput {
-   public:
-    virtual void PresentSomething(
-        entities::SampleInteractorResponse response) = 0;
+public:
+  virtual void PresentSomething(
+      entities::SampleInteractorResponse response) = 0;
 };
 
-}  // namespace use_cases
-}  // namespace {{LIB.DIR}}
+} // namespace use_cases
+} // namespace {{LIB.DIR}}
