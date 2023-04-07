@@ -6,7 +6,7 @@ import subprocess
 
 project_def = {
     "PROJECT_NAME": "Bitstream",
-    "PROJECT_VERSION": "0.1",
+    "PROJECT_VERSION": "0.1.1",
     "PROJECT_DESCRIPTION": "Bitstream library",
     "APP": {
         "DIR": "app_bs",  # The project will be generated with one app in the given directory
@@ -21,7 +21,7 @@ project_def = {
         "cleanarchitecture": False,
     },
     "EXTERN": {
-        "doxygen": False,
+        "doxygen": True,
         "googletest": True,
         "cxxopts": True,
         "fmt": True,
@@ -77,6 +77,7 @@ proj_path = "./tmp/"
 app_dir = project_def["APP"]["DIR"]
 lib_dir = project_def["LIB"]["DIR"]
 is_fmt = project_def["EXTERN"]["fmt"]
+is_doxygen = project_def["EXTERN"]["doxygen"]
 is_spdlog = project_def["EXTERN"]["spdlog"]
 is_cxxopts = project_def["EXTERN"]["cxxopts"]
 is_wxwidgets = project_def["EXTERN"]["wxWidgets"]
@@ -194,6 +195,21 @@ if is_googletest:
         ]
 
     for from_, to_ in TESTS_TO_RENDER:
+        to_dir = os.path.dirname(to_)
+        Path(to_dir).mkdir(parents=True, exist_ok=True)
+        create(from_, to_)
+if is_doxygen:
+    DOCS_TO_RENDER = [
+        (
+            "docs/CMakeLists.txt",
+            proj_path + "docs/CMakeLists.txt",
+        ),
+        (
+            "docs/mainpage.md",
+            proj_path + "docs/mainpage.md",
+        ),
+    ]
+    for from_, to_ in DOCS_TO_RENDER:
         to_dir = os.path.dirname(to_)
         Path(to_dir).mkdir(parents=True, exist_ok=True)
         create(from_, to_)
