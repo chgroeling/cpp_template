@@ -45,6 +45,13 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   endif()
 {% endif %}
 endif()
+{% if 'sqlitecpp' in extern %}
+# ------------------------------------
+# sqlitecpp library
+# ------------------------------------
+add_subdirectory(extern/sqlitecpp EXCLUDE_FROM_ALL)
+
+{% endif %}
 {% if 'nlohmann_json' in extern %}
 # ------------------------------------
 # nlohmann json library

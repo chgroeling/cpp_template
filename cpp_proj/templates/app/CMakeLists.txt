@@ -32,4 +32,9 @@ target_link_libraries({{app.specs.target}} PUBLIC wx::net wx::core wx::base)
 {% if 'nlohmann_json' in extern%}
 # Link GUI library
 target_link_libraries({{app.specs.target}} PUBLIC nlohmann_json)
+
+{% endif %}
+{% if 'sqlitecpp' in extern%}
+# Link GUI library
+target_link_libraries({{app.specs.target}} PUBLIC SQLiteCpp)
 {% endif %}

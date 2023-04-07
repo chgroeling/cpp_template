@@ -1,17 +1,20 @@
 #include "{{lib.specs.dir}}/{{lib.specs.filename}}.h"
 
+{% if 'sqlitecpp_example' in lib%}
+#include <SQLiteCpp/SQLiteCpp.h>
+{% endif %}
+{% if 'fmt_example' in lib%}
+#include <fmt/core.h>
+{% endif %}
+#include <iostream>
+{% if 'nlohmann_json_example' in lib%}
+#include <nlohmann/json.hpp>
+{% endif %}
 {% if 'spdlog_example' in lib%}
 #include <spdlog/sinks/stdout_color_sinks.h>
 //#include <spdlog/sinks/null_sink.h>
 #include <spdlog/spdlog.h>
 {% endif %}
-{% if 'fmt_example' in lib%}
-#include <fmt/core.h>
-{% endif %}
-{% if 'nlohmann_json_example' in lib%}
-#include <nlohmann/json.hpp>
-{% endif %}
-#include <iostream>
 
 namespace {{lib.specs.dir}} {
 
@@ -20,7 +23,7 @@ namespace {{lib.specs.dir}} {
   logger_ = spdlog::get("{{lib.specs.class}}");
   if (!logger_) { // logger was not initialized beforehand
     logger_ = spdlog::stdout_color_mt("{{lib.specs.class}}");
-    // Usually it is good to provide a null sink in case no logger was 
+    // Usually it is good to provide a null sink in case no logger was
     // registered by the app
     //
     // logger_ = spdlog::null_logger_mt("BitStream");
@@ -32,8 +35,8 @@ namespace {{lib.specs.dir}} {
 
 {{lib.specs.class}}::~{{lib.specs.class}}(){};
 
-void {{lib.specs.class}}::PrintHello() { 
-  std::cout << "Lib: Hello World !!!\n"; 
+void {{lib.specs.class}}::PrintHello() {
+  std::cout << "Lib: Hello World !!!\n";
 {% if 'fmt_example' in lib%}
   fmt::print("Lib: Hello FMT\n");
 {% endif %}
@@ -43,9 +46,12 @@ void {{lib.specs.class}}::PrintHello() {
 {% if 'nlohmann_json_example' in lib%}
   NlohmannJsonTest();
 {% endif %}
+{% if 'sqlitecpp_example' in lib%}
+  SqliteCppTest();
+{% endif %}
 }
 
-bool {{lib.specs.class}}::ReturnTrue() { 
+bool {{lib.specs.class}}::ReturnTrue() {
   return true;
 }
 {% if 'spdlog_example' in lib%}
@@ -60,7 +66,7 @@ void {{lib.specs.class}}::LogTest() {
   logger_->info("{:<30}", "left aligned");
   
   logger_->set_level(spdlog::level::debug); // Set global log level to debug
-  logger_->debug("This message should be displayed.."); 
+  logger_->debug("This message should be displayed..");
 }
 
 {% endif %}
@@ -79,7 +85,29 @@ void {{lib.specs.class}}::NlohmannJsonTest() {
   // pass in the amount of spaces to indent
   std::cout << j.dump(4) << std::endl;
 }
-{% endif %}
 
+{% endif %}
+{% if 'sqlitecpp_example' in lib%}
+void {{lib.specs.class}}::SqliteCppTest() {
+  try {
+    SQLite::Database db("transaction.db3", SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE);
+
+    db.exec("DROP TABLE IF EXISTS test");
+
+    // Begin transaction
+    SQLite::Transaction transaction(db);
+
+    db.exec("CREATE TABLE test (id INTEGER PRIMARY KEY, value TEXT)");
+
+    int nb = db.exec("INSERT INTO test VALUES (NULL, \"test\")");
+    std::cout << "INSERT INTO test VALUES (NULL, \"test\")\", returned " << nb << std::endl;
+
+    // Commit transaction
+    transaction.commit();
+  } catch (std::exception &e) {
+    std::cout << "exception: " << e.what() << std::endl;
+  }
+}
+{% endif %}
 
 } // namespace {{lib.specs.dir}}

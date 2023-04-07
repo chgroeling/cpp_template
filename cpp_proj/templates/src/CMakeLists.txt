@@ -25,5 +25,9 @@ target_link_libraries({{lib.specs.dir}} PUBLIC spdlog)
 {% if 'nlohmann_json' in extern%}
 # Link GUI library
 target_link_libraries({{lib.specs.dir}} PUBLIC nlohmann_json)
-{% endif %}
 
+{% endif %}
+{% if 'sqlitecpp' in extern%}
+# Link GUI library
+target_link_libraries({{lib.specs.dir}} PUBLIC SQLiteCpp)
+{% endif %}

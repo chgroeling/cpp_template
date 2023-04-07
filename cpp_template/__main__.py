@@ -40,6 +40,7 @@ project_def = {
         "fmt_example": {"extern.fmt"},
         "nlohmann_json_example" : {"extern.nlohmann_json"},
         "spdlog_example": {"extern.spdlog"},
+        "sqlitecpp_example": {"extern.sqlitecpp"},
         "clean_architecture": {},
     },
     # --------
@@ -73,7 +74,8 @@ project_def = {
         "fmt": {},
         "spdlog": {},
         "doxygen": {},
-        "nlohmann_json":{}
+        "nlohmann_json":{},
+        "sqlitecpp" : {}
     },
 }
 
@@ -168,7 +170,7 @@ is_cxxopts = "cxxopts" in project_def["extern"]
 is_wxwidgets = "wxwidgets" in project_def["extern"]
 is_googletest = "googletest" in project_def["extern"]
 is_nlohmann_json = "nlohmann_json" in project_def["extern"]
-
+is_sqlitecpp = "sqlitecpp" in project_def["extern"]
 
 # ----------------------------------------------------------------------------
 # RENDER TEMPLATES AND WRITE THEM INTO THE STRUCTURE
@@ -372,3 +374,12 @@ if is_nlohmann_json:
         "./tmp", "https://github.com/nlohmann/json", "extern/nlohmann_json"
     )
     GitCheckoutSubModule("./tmp/extern/nlohmann_json", "v3.11.2")
+
+if is_sqlitecpp:
+    GitAddSubModule(
+        "./tmp", "https://github.com/SRombauts/SQLiteCpp", "extern/sqlitecpp"
+    )
+    GitCheckoutSubModule("./tmp/extern/sqlitecpp", "3.1.1")
+
+
+

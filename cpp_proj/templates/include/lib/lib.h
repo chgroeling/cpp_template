@@ -39,6 +39,11 @@ private:
   void NlohmannJsonTest();
 
 {% endif %}
+{% if 'sqlitecpp_example' in lib%}
+  /// Test method for sqlitecpp
+  void SqliteCppTest();
+
+{% endif %}
 {% if 'spdlog_example' in lib%}
   /// Print outs test logging messages
   void LogTest();
