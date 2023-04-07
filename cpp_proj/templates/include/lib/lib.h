@@ -1,9 +1,9 @@
 #pragma once
 
-namespace lib {
-class Lib {
+namespace {{LIB.DIR}} {
+class {{LIB.CLASS}} {
  public:
-  Lib(){};
+   {{LIB.CLASS}}(){};
   void PrintHello();
 };
-}  // namespace lib
+}  // namespace {{LIB.DIR}}

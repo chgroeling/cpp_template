@@ -3,8 +3,8 @@
 #include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
 
 int main(int argc, const char* argv[]) {
-  std::cout << "Hello World\n";
-  lib::Lib lib;
+  std::cout << "App: Hello World !!!\n";
+  {{LIB.DIR}}::{{LIB.CLASS}} lib;
 
   lib.PrintHello();
 }

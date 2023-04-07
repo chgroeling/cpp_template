@@ -1,8 +1,9 @@
 #include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
+
 #include <iostream>
 
-namespace lib {
+namespace {{LIB.DIR}} {
 
-void Lib::PrintHello() { std::cout << "Lib hello world \n"; }
+void {{LIB.CLASS}}::PrintHello() { std::cout << "Lib: Hello World !!!\n"; }
 
-}  // namespace lib
+}  // namespace {{LIB.DIR}}

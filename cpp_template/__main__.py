@@ -14,9 +14,10 @@ project_def = {
     "PROJECT_NAME": "cpp_template",
     "PROJECT_VERSION": "0.3",
     "PROJECT_DESCRIPTION": "Test Project",
-    "LIB": {
-        "DIR": "mylib",
-        "FILENAME": "libary",
+    "LIB": {                    # The project will be generated with one library
+        "DIR": "mylib",         # This is the name of the library directory
+        "FILENAME": "libary",   # The library directory contains one cpp module with this name
+        "CLASS": "MyClass",     # This is the name of the class defined in the generated cpp module
     },
     "EXTERN": {
         "doxygen": False,
@@ -41,6 +42,9 @@ def create(template_name, filepos):
     with open(filepos, "w") as fh:
         fh.write(out_template)
 
+# ----------------------------------------------------------------------------
+# CREATE DIRECTORY STRUCTURE
+# ----------------------------------------------------------------------------
 
 # Create directory structure
 Path("./tmp/app/").mkdir(parents=True, exist_ok=True)
@@ -51,6 +55,10 @@ Path("./tmp/include/%s/" % (project_def["LIB"]["DIR"])).mkdir(
     parents=True, exist_ok=True
 )
 
+# ----------------------------------------------------------------------------
+# RENDER TEMPLATES AND WRITE THEM INTO THE STRUCTURE
+# ----------------------------------------------------------------------------
+create("gitignore", "tmp/.gitignore")
 create("CMakeLists.txt", "tmp/CMakeLists.txt")
 create("app/CMakeLists.txt", "tmp/app/CMakeLists.txt")
 create("src/CMakeLists.txt", "tmp/src/CMakeLists.txt")
@@ -64,4 +72,7 @@ create(
     "tmp/include/%s/%s.h" % (project_def["LIB"]["DIR"], project_def["LIB"]["FILENAME"]),
 )
 
+# ----------------------------------------------------------------------------
+# Initialize Git Repositories 
+# ----------------------------------------------------------------------------
 GitInit("./tmp")
