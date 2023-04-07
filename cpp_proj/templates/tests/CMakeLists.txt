@@ -18,8 +18,8 @@ macro(package_add_test TESTNAME)
     # the test executable.  Remove g_test_main if writing your own main function.
     target_link_libraries(${TESTNAME} PUBLIC gtest gmock)
     target_link_libraries(${TESTNAME} PUBLIC gtest_main)
-{% if PARTS.lib%}
-    target_link_libraries(${TESTNAME} PUBLIC {{LIB.DIR}})
+{% if lib is defined%}
+    target_link_libraries(${TESTNAME} PUBLIC {{lib.specs.dir}})
 {% endif %}
 
     # gtest_discover_tests replaces gtest_add_tests,
@@ -33,14 +33,14 @@ macro(package_add_test TESTNAME)
 endmacro()
 
 set(TEST_SOURCES
-{% if PARTS.test_basic%}
+{% if 'basic' in test%}
     test_basic.cpp
 {% endif %}
-{% if PARTS.test_lib%}
-    test_{{LIB.DIR}}.cpp
+{% if 'lib' in test%}
+    test_{{lib.specs.dir}}.cpp
 {% endif %}
-{% if PARTS.cleanarchitecture%}
-    {{LIB.DIR}}/use_cases/test_sample_interactor.cpp
+{% if 'cleanarchitecture' in test%}
+    {{lib.specs.dir}}/use_cases/test_sample_interactor.cpp
 {% endif %}
 )
 

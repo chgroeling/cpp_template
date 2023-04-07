@@ -1,24 +1,24 @@
 # Create the library 
-set ({{LIB.DIR|upper}}_SOURCES 
-  {{LIB.DIR}}/{{LIB.FILENAME}}.cpp
-{% if PARTS.cleanarchitecture%}
-  {{LIB.DIR}}/use_cases/sample_interactor.cpp
-  {{LIB.DIR}}/controller/sample_controller.cpp
-  {{LIB.DIR}}/presenter/sample_presenter.cpp
+set ({{lib.specs.dir|upper}}_SOURCES 
+  {{lib.specs.dir}}/{{lib.specs.filename}}.cpp
+{% if 'cleanarchitecture' in lib%}
+  {{lib.specs.dir}}/use_cases/sample_interactor.cpp
+  {{lib.specs.dir}}/controller/sample_controller.cpp
+  {{lib.specs.dir}}/presenter/sample_presenter.cpp
 {% endif %}
 )
 
-add_library({{LIB.DIR}} ${{"{"}}{{LIB.DIR|upper}}_SOURCES})
+add_library({{lib.specs.dir}} ${{"{"}}{{lib.specs.dir|upper}}_SOURCES})
 
 # Add the include directories and make them known to other targets (PUBLIC)
-target_include_directories({{LIB.DIR}} PUBLIC ../include)
+target_include_directories({{lib.specs.dir}} PUBLIC ../include)
 
 # Link extern libraries
-{% if EXTERN.fmt%}
-target_link_libraries({{LIB.DIR}} PUBLIC fmt)
-{% endif %}
+{% if 'fmt' in extern%}
+target_link_libraries({{lib.specs.dir}} PUBLIC fmt)
 
-{% if EXTERN.spdlog%}
-target_link_libraries({{LIB.DIR}} PUBLIC spdlog)
+{% endif %}
+{% if 'spdlog' in extern%}
+target_link_libraries({{lib.specs.dir}} PUBLIC spdlog)
 {% endif %}
 

@@ -1,7 +1,16 @@
 #pragma once
 
+{% if 'spdlog_example' in lib%}
+#include <memory>
+{% endif %}
+
+{% if 'spdlog_example' in lib%}
+namespace spdlog {
+class logger;
+}
+{% endif %}
 /// \brief namespace of example library
-namespace {{LIB.DIR}} {
+namespace {{lib.specs.dir}} {
 
 /// \brief This is an example class.
 ///
@@ -10,15 +19,27 @@ namespace {{LIB.DIR}} {
 /// * ReturnTrue() return true.
 /// 
 /// Go back to \ref mainpage
-class {{LIB.CLASS}} {
- public:
-  {{LIB.CLASS}}(){};
+class {{lib.specs.class}} {
+public:
+  /// Constructor
+  {{lib.specs.class}}();
+
+  /// Deconstructor
+  virtual ~{{lib.specs.class}}();
 
   /// \brief This method prints hello to std::cout.
   void PrintHello();
   
   /// \return This method returns true.
   bool ReturnTrue();
+
+private:
+{% if 'spdlog_example' in lib%}
+  /// Print outs test logging messages
+  void LogTest();
+
+  std::shared_ptr<spdlog::logger> logger_;
+{% endif %}
 };
 
-} // namespace {{LIB.DIR}}
+} // namespace {{lib.specs.dir}}

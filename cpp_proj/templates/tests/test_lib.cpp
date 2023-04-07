@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
-#include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
+#include "{{lib.specs.dir}}/{{lib.specs.filename}}.h"
 
-TEST(Test{{LIB.DIR|capitalize}}, ReturnTrueReturnsTrue)
+TEST(Test{{lib.specs.dir|capitalize}}, ReturnTrueReturnsTrue)
 {
-    {{LIB.DIR}}::{{LIB.CLASS}} lib;
+    {{lib.specs.dir}}::{{lib.specs.class}} lib;
 
     auto ret = lib.ReturnTrue();
     EXPECT_EQ(ret, true);	

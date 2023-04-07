@@ -3,41 +3,106 @@ from pathlib import Path
 import os
 import subprocess
 
-
 project_def = {
-    "PROJECT_NAME": "Bitstream",
-    "PROJECT_VERSION": "0.1.1",
-    "PROJECT_DESCRIPTION": "Bitstream library",
-
-    "PARTS": {
-        "app": True,  # Generate an app which uses the library
-        "lib": False, # Generate a library target
-        "test_basic": False,  # Adds a testing file containing the most simple google tests possible. Needs googletest.
-        "test_lib": False,  # Adds a testing file for a library target. Needs googletest.
-        "cleanarchitecture": False,  # Generate a sample structure using uncle bobs clean architecture
+    "project": {
+        "specs": {
+            "name": "Bitstream",
+            "version": "0.1.1",
+            "description": "Bitstream library",
+        },
+    },
+    # --------
+    # Applikation
+    # --------
+    "app": {
+       "specs": {
+           "dir": "app_bs",  # The project will be generated with one app in the given directory
+           "target": "app_bs",  # That is the name of the target
+       },
+       #"cxxopts_example": {"extern.cxxopts"},
+       "fmt_example": {"extern.fmt"},
+       "lib_example": {"lib"},
+       "spdlog_example": {"extern.spdlog"},
+       #"wxwidgets_example": {"extern.wxwidgets"},
+       #"clean_architecture_example": {"lib.clean_architecture"},
+    },
+    #
+    # --------
+    # Library
+    # --------
+    "lib": {
+        "specs": {
+            "dir": "bitstream",  # This is the name of the library directory
+            "filename": "bitstream",  # The library directory contains one cpp module with this name
+            "class": "BitStream",  # This is the name of the class defined in the generated cpp module
+        },
+        "fmt_example": {"extern.fmt"},
+        "spdlog_example": {"extern.spdlog"},
+        # "clean_architecture": {},
+    },
+    # --------
+    # Documentation
+    # --------
+    # "doc": {
+    #     "lib_docs": {"lib", "extern.doxygen"},
+    # },
+    #
+    # --------
+    # Tests
+    # --------
+    "test": {
+        "basic": {"extern.googletest"},
+        #"lib": {"lib", "extern.googletest"},
+        # "clean_architecture_example": {
+        #     "lib.clean_architecture",
+        #     "extern.googletest",
+        # },
     },
 
-    "APP": {
-        "DIR": "app_bs",  # The project will be generated with one app in the given directory
-        "TARGET": "app_bs",  # Thats the name of the target
-    },
-
-    "LIB": {  # The project will be generated with one library
-        "DIR": "bitstream",  # This is the name of the library directory
-        "FILENAME": "bitstream",  # The library directory contains one cpp module with this name
-        "CLASS": "BitStream",  # This is the name of the class defined in the generated cpp module
-    },
-
-    "EXTERN": {
-        "doxygen": False,
-        "googletest": False,
-        "cxxopts": False,
-        "fmt": False,
-        "spdlog": False,
-        "PCRE2": False,
-        "wxWidgets": False,
+    #
+    # --------
+    # Externals
+    # --------
+    "extern": {
+        #"wxwidgets": {},
+        "googletest": {},
+        #"cxxopts": {},
+        "fmt": {},
+        "spdlog": {},
+        #"doxygen": {},
     },
 }
+
+
+def follow(depth, prj, element):
+    for k, i in element.items():
+        if k == "specs":
+            continue
+        if len(i) == 0:
+            continue
+
+        for j in i:
+            elements = j.split(".")
+            print("  " * depth + str(elements))
+            # NAVIGATE
+            pos = prj
+            for k in elements:
+                pos = pos[k]
+
+            follow(2, prj, pos)
+
+
+def check_deps():
+    prj = project_def
+    for k, i in prj.items():
+        if k == "project":
+            continue
+
+        print(k)
+        follow(1, prj, prj[k])
+
+
+check_deps()
 
 
 def GitInit(repoDir):
@@ -88,19 +153,17 @@ env = Environment(
 # ----------------------------------------------------------------------------
 
 proj_path = "./tmp/"
-app_dir = project_def["APP"]["DIR"]
-lib_dir = project_def["LIB"]["DIR"]
-is_app = project_def["PARTS"]["app"]
-is_lib = project_def["PARTS"]["lib"]
-is_cleanarchitecture = project_def["PARTS"]["cleanarchitecture"]
-is_test_basic = project_def["PARTS"]["test_basic"]
-is_test_lib = project_def["PARTS"]["test_lib"]
-is_fmt = project_def["EXTERN"]["fmt"]
-is_doxygen = project_def["EXTERN"]["doxygen"]
-is_spdlog = project_def["EXTERN"]["spdlog"]
-is_cxxopts = project_def["EXTERN"]["cxxopts"]
-is_wxwidgets = project_def["EXTERN"]["wxWidgets"]
-is_googletest = project_def["EXTERN"]["googletest"]
+is_app = "app" in project_def
+is_lib = "lib" in project_def
+is_test = "test" in project_def
+is_cleanarchitecture = False 
+is_fmt = "fmt" in project_def['extern'] 
+is_doxygen = "doxygen" in project_def['extern'] 
+is_spdlog = "spdlog" in project_def['extern'] 
+is_cxxopts = "cxxopts" in project_def['extern'] 
+is_wxwidgets = "wxwidgets" in project_def['extern'] 
+is_googletest = "googletest" in project_def['extern'] 
+
 
 # ----------------------------------------------------------------------------
 # RENDER TEMPLATES AND WRITE THEM INTO THE STRUCTURE
@@ -115,19 +178,22 @@ FILES_TO_RENDER = [
 ]
 
 if is_lib:
+    lib_dir = project_def["lib"]["specs"]["dir"]
+    
     FILES_TO_RENDER += [
         ("src/CMakeLists.txt", proj_path + "src/CMakeLists.txt"),
         (
             "src/lib/lib.cpp",
-            proj_path + "src/%s/%s.cpp" % (lib_dir, project_def["LIB"]["FILENAME"]),
+            proj_path + "src/%s/%s.cpp" % (lib_dir, project_def["lib"]['specs']["filename"]),
         ),
         (
             "include/lib/lib.h",
-            proj_path + "include/%s/%s.h" % (lib_dir, project_def["LIB"]["FILENAME"]),
+            proj_path + "include/%s/%s.h" % (lib_dir, project_def["lib"]["specs"]["filename"]),
         ),
     ]
 
 if is_app:
+    app_dir = project_def["app"]["specs"]["dir"]
     FILES_TO_RENDER += [
         ("app/CMakeLists.txt", proj_path + "%s/CMakeLists.txt" % (app_dir)),
         ("app/main.cpp", proj_path + "%s/main.cpp" % (app_dir)),
@@ -196,7 +262,11 @@ if is_cleanarchitecture:
         create(from_, to_)
 
 
-if is_googletest:
+if is_test:
+
+    is_test_basic = 'basic' in project_def['test']
+    is_test_lib = 'lib' in project_def['test'] 
+
     TESTS_TO_RENDER = [
         (
             "tests/CMakeLists.txt",
@@ -224,7 +294,8 @@ if is_googletest:
             TESTS_TO_RENDER += [
                 (
                     "tests/lib/use_cases/test_sample_interactor.cpp",
-                    proj_path + "tests/%s/use_cases/test_sample_interactor.cpp" % (lib_dir),
+                    proj_path
+                    + "tests/%s/use_cases/test_sample_interactor.cpp" % (lib_dir),
                 ),
             ]
 
@@ -232,7 +303,7 @@ if is_googletest:
         to_dir = os.path.dirname(to_)
         Path(to_dir).mkdir(parents=True, exist_ok=True)
         create(from_, to_)
-        
+
 if is_doxygen:
     DOCS_TO_RENDER = [
         (
@@ -250,7 +321,7 @@ if is_doxygen:
         create(from_, to_)
 
 # create extern directory when libraries are selected
-if is_fmt or is_spdlog or is_googletest or is_wxwidgets:
+if is_fmt or is_spdlog or is_googletest or is_wxwidgets or is_cxxopts:
     Path(proj_path + "extern").mkdir(parents=True, exist_ok=True)
 
 

@@ -1,30 +1,30 @@
-{% if EXTERN.fmt %}
+{% if 'fmt_example' in app%}
 #include <fmt/core.h>
 {% endif %}
 #include <iostream>
 #include <memory>
-{% if EXTERN.spdlog %}
+{% if 'spdlog_example' in app%}
 #include <spdlog/spdlog.h>
 {% endif %}
-{% if EXTERN.wxWidgets %}
+{% if 'wxwidgets' in extern %}
 #include <wx/wx.h>
 {% endif %}
-{% if EXTERN.cxxopts%}
+{% if 'cxxopts' in extern %}
 #include <cxxopts.hpp>
 {% endif %}
 
-{% if PARTS.lib%}
-{% if PARTS.cleanarchitecture %}
-#include "{{LIB.DIR}}/controller/sample_controller.h"
-#include "{{LIB.DIR}}/db/sample_repository.h"
-#include "{{LIB.DIR}}/presenter/sample_presenter.h"
-#include "{{LIB.DIR}}/use_cases/sample_interactor.h"
+{% if 'cleanarchitecture' in app %}
+#include "{{lib.specs.dir}}/controller/sample_controller.h"
+#include "{{lib.specs.dir}}/db/sample_repository.h"
+#include "{{lib.specs.dir}}/presenter/sample_presenter.h"
+#include "{{lib.specs.dir}}/use_cases/sample_interactor.h"
 
 {% endif %}
-#include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
-{% endif %}
+{% if 'lib_example' in app%}
+#include "{{lib.specs.dir}}/{{lib.specs.filename}}.h"
 
-{% if EXTERN.spdlog%}
+{% endif %}
+{% if 'spdlog_example' in app%}
 void LogTest() {
   spdlog::info("Welcome to spdlog!");
   spdlog::error("Some error message with arg: {}", 1);
@@ -40,9 +40,9 @@ void LogTest() {
 }
 
 {% endif %}
-{% if EXTERN.cxxopts%}
+{% if 'cxxopts' in extern%}
 int parse_command_line(int argc, const char *argv[]) {
-  cxxopts::Options options("{{APP.TARGET}}", "One line description of \"{{APP.TARGET}}\"");
+  cxxopts::Options options("{{app.specs.target}}", "One line description of \"{{app.specs.target}}\"");
 
   options.positional_help("<filenames>");
 
@@ -62,8 +62,8 @@ int parse_command_line(int argc, const char *argv[]) {
   try {
     result = options.parse(argc, argv);
   } catch (const cxxopts::OptionParseException& x) {
-    std::cerr << "{{APP.TARGET}}: " << x.what() << '\n';
-    std::cerr << "usage: {{APP.TARGET}} [options] <filenames> ...\n";
+    std::cerr << "{{app.specs.target}}: " << x.what() << '\n';
+    std::cerr << "usage: {{app.specs.target}} [options] <filenames> ...\n";
     return EXIT_FAILURE;
   }
 
@@ -100,51 +100,50 @@ int parse_command_line(int argc, const char *argv[]) {
 }
 
 {% endif %}
-{% if PARTS.cleanarchitecture %}
+{% if 'cleanarchitecture' in lib %}
 void TestCleanArchitecture() {
-  auto sample_repository = std::make_shared<{{LIB.DIR}}::db::SampleRepository>();
+  auto sample_repository = std::make_shared<{{lib.specs.dir}}::db::SampleRepository>();
 
-  auto sample_presenter = std::make_shared<{{LIB.DIR}}::presenter::SamplePresenter>();
+  auto sample_presenter = std::make_shared<{{lib.specs.dir}}::presenter::SamplePresenter>();
 
-  auto sample_interactor = std::make_shared<{{LIB.DIR}}::use_cases::SampleInteractor>(sample_repository);
+  auto sample_interactor = std::make_shared<{{lib.specs.dir}}::use_cases::SampleInteractor>(sample_repository);
   sample_interactor->SetOutput(sample_presenter);
 
-  auto sample_controller = std::make_shared<{{LIB.DIR}}::controller::SampleController>();
+  auto sample_controller = std::make_shared<{{lib.specs.dir}}::controller::SampleController>();
   sample_controller->SetOutput(sample_interactor);
 
   sample_controller->DoSomething();
 }
 
 {% endif %}
-{% if not EXTERN.wxWidgets %}
+{% if not 'wxwidgets' in extern %}
 int main(int argc, const char *argv[]) {
   int ret = EXIT_SUCCESS;
 
   // Print welcome message
   std::cout << "App: Hello World !!!\n";
-
-{% if PARTS.lib%}
-  // Test local library
-  {{LIB.DIR}}::{{LIB.CLASS}} lib;
-  lib.PrintHello();
-
-{% endif %}
-{% if PARTS.cleanarchitecture %}
-  // Test clean architecture implementation
-  TestCleanArchitecture();
-
-{% endif %}
-{% if EXTERN.fmt %}
+{% if 'fmt_example' in app%}
   // Test string format library
   fmt::print("App: Hello FMT\n");
 
 {% endif %}
-{% if EXTERN.spdlog%}
+{% if 'spdlog_example' in app%}
   // Test logging library
   LogTest();
 
 {% endif %}
-{% if EXTERN.cxxopts%}
+{% if 'lib_example' in app%}
+  // Test local library
+  {{lib.specs.dir}}::{{lib.specs.class}} lib;
+  lib.PrintHello();
+
+{% endif %}
+{% if 'cleanarchitecture' in app %}
+  // Test clean architecture implementation
+  TestCleanArchitecture();
+
+{% endif %}
+{% if 'cxxopts' in extern%}
   // Parse command line options
   ret = parse_command_line(argc, argv);
 
@@ -172,28 +171,27 @@ IMPLEMENT_APP(MyApp)
 bool MyApp::OnInit() {
   // Print welcome message
   std::cout << "App: Hello World !!!\n";
-
-{% if PARTS.lib%}
-  {{LIB.DIR}}::{{LIB.CLASS}} lib;
-  lib.PrintHello();
-
-{% endif %}
-{% if PARTS.cleanarchitecture %}
-  // Test clean architecture implementation
-  TestCleanArchitecture();
-
-{% endif %}
-{% if EXTERN.fmt %}
+{% if 'fmt_example' in app%}
   // Test string format library
   fmt::print("App: Hello FMT\n");
 
 {% endif %}
-{% if EXTERN.spdlog%}
+{% if 'spdlog_example' in app%}
   // Test logging library
   LogTest();
 
 {% endif %}
-{% if EXTERN.cxxopts%}
+{% if 'lib_example' in app%}
+  {{lib.specs.dir}}::{{lib.specs.class}} lib;
+  lib.PrintHello();
+
+{% endif %}
+{% if 'cleanarchitecture' in app %}
+  // Test clean architecture implementation
+  TestCleanArchitecture();
+
+{% endif %}
+{% if 'cxxopts' in extern%}
   // Parse command line options
   // Currently not supported when using wxWdigets
   // ret = parse_command_line(argc, argv);

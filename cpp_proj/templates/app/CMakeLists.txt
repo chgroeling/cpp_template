@@ -2,29 +2,29 @@ set(APP_SOURCES
   main.cpp
 )
 
-add_executable({{APP.TARGET}} ${APP_SOURCES})
+add_executable({{app.specs.target}} ${APP_SOURCES})
 
-{% if PARTS.lib%}
+{% if lib is defined%}
 # Link local libraries
-target_link_libraries({{APP.TARGET}} PUBLIC {{LIB.DIR}})
+target_link_libraries({{app.specs.target}} PUBLIC {{lib.specs.dir}})
 
 {% endif %}
 # Link string format library
-{% if EXTERN.fmt%}
-target_link_libraries({{APP.TARGET}} PUBLIC fmt)
+{% if 'fmt' in extern%}
+target_link_libraries({{app.specs.target}} PUBLIC fmt)
 
 {% endif %}
-{% if EXTERN.spdlog%}
+{% if 'spdlog' in extern%}
 # Link logging library
-target_link_libraries({{APP.TARGET}} PUBLIC spdlog)
+target_link_libraries({{app.specs.target}} PUBLIC spdlog)
 
 {% endif %}
-{% if EXTERN.cxxopts%}
+{% if 'cxxopts' in extern%}
 # Link command line option library
-target_link_libraries({{APP.TARGET}} PUBLIC cxxopts)
+target_link_libraries({{app.specs.target}} PUBLIC cxxopts)
 
 {% endif %}
-{% if EXTERN.wxWidgets%}
+{% if 'wxwidgets' in extern%}
 # Link GUI library
-target_link_libraries({{APP.TARGET}} PUBLIC wx::net wx::core wx::base)
+target_link_libraries({{app.specs.target}} PUBLIC wx::net wx::core wx::base)
 {% endif %}
