@@ -84,6 +84,12 @@ Path(proj_path + "include/%s/entities/" % (project_def["LIB"]["DIR"])).mkdir(
 Path(proj_path + "include/%s/use_cases/" % (project_def["LIB"]["DIR"])).mkdir(
     parents=True, exist_ok=True
 )
+Path(proj_path + "include/%s/presenter/" % (project_def["LIB"]["DIR"])).mkdir(
+    parents=True, exist_ok=True
+)
+Path(proj_path + "include/%s/controller/" % (project_def["LIB"]["DIR"])).mkdir(
+    parents=True, exist_ok=True
+)
 
 
 if is_fmt or is_spdlog:
@@ -136,6 +142,18 @@ create(
     "include/lib/use_cases/sample_interactor.h",
     proj_path
     + "include/%s/use_cases/sample_interactor.h" % (project_def["LIB"]["DIR"]),
+)
+
+create(
+    "include/lib/controller/sample_controller.h",
+    proj_path
+    + "include/%s/controller/sample_controller.h" % (project_def["LIB"]["DIR"]),
+)
+
+create(
+    "include/lib/presenter/sample_presenter.h",
+    proj_path
+    + "include/%s/presenter/sample_presenter.h" % (project_def["LIB"]["DIR"]),
 )
 # ----------------------------------------------------------------------------
 # Initialize Git Repositories
