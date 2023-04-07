@@ -49,29 +49,37 @@ endif()
 
 {# CXXOOPTS #}
 {% if EXTERN.cxx_opts %}
-# --------------
+# ------------------------------------
 # CXXOPTS
-# --------------
+# ------------------------------------
 add_subdirectory(extern/cxxopts)
 {% endif %}
 {% if EXTERN.fmt%}
-# --------------
+# ------------------------------------
 # FMT
-# --------------
+# ------------------------------------
 add_subdirectory(extern/fmt EXCLUDE_FROM_ALL)
 
 {% endif %}
 {% if EXTERN.spdlog%}
-# --------------
+# ------------------------------------
 # SPDLOG 
-# --------------
+# ------------------------------------
 set(SPDLOG_FMT_EXTERNAL ON) # Don't use internal fmt. Its provided directly!
 add_subdirectory(extern/spdlog EXCLUDE_FROM_ALL)
+
+{% endif %}
+{% if EXTERN.cxxopts%}
+# ------------------------------------
+# CXXOPTS
+# ------------------------------------
+add_subdirectory(extern/cxxopts EXCLUDE_FROM_ALL)
+
 {% endif %}
 {% if EXTERN.pcre2%}
-# --------------
+# ------------------------------------
 # PCRE
-# --------------
+# ------------------------------------
 set(PCRE2_BUILD_PCRE2GREP OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
 set(PCRE2_BUILD_TESTS OFF CACHE BOOL "") # Don't use internal fmt. Its provided directly!
 set(PCRE2_SUPPORT_UNICODE OFF CACHE BOOL "")
@@ -80,18 +88,23 @@ set(PCRE2_SHOW_REPORT OFF CACHE BOOL "")
 add_subdirectory(extern/pcre2)
 # Add missing include directories that the library can be used by this project
 target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern/pcre2/ )
-{% endif %}
 
+{% endif %}
 {% if EXTERN.wxWidgets%}
-# --------------
+# ------------------------------------
 # wxWidgets
-# --------------
+# ------------------------------------
 add_subdirectory(extern/wxWidgets EXCLUDE_FROM_ALL)
 
 {% endif %}
-# --------------
+# ------------------------------------
+# Library: {{LIB.DIR}} 
+# ------------------------------------
 add_subdirectory(src)
 
+# ------------------------------------
+# Application: {{APP.TARGET}} 
+# ------------------------------------
 add_subdirectory({{APP.DIR}})
 
 {% if EXTERN.googletest%}

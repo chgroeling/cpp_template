@@ -23,7 +23,7 @@ project_def = {
     "EXTERN": {
         "doxygen": False,
         "googletest": True,
-        "cxx_opts": False,
+        "cxxopts": True,
         "fmt": True,
         "spdlog": True,
         "PCRE2": False,
@@ -78,6 +78,7 @@ app_dir = project_def["APP"]["DIR"]
 lib_dir = project_def["LIB"]["DIR"]
 is_fmt = project_def["EXTERN"]["fmt"]
 is_spdlog = project_def["EXTERN"]["spdlog"]
+is_cxxopts = project_def["EXTERN"]["cxxopts"]
 is_wxwidgets = project_def["EXTERN"]["wxWidgets"]
 is_googletest = project_def["EXTERN"]["googletest"]
 is_cleanarchitecture = project_def["GENERATOR"]["cleanarchitecture"]
@@ -214,6 +215,10 @@ if is_fmt:
 if is_spdlog:
     GitAddSubModule("./tmp", "https://github.com/gabime/spdlog.git", "extern/spdlog")
     GitCheckoutSubModule("./tmp/extern/spdlog", "v1.10.0")
+
+if is_cxxopts:
+    GitAddSubModule("./tmp", "https://github.com/jarro2783/cxxopts.git", "extern/cxxopts")
+    GitCheckoutSubModule("./tmp/extern/cxxopts", "v3.0.0")
 
 if is_wxwidgets:
     GitAddSubModule(
