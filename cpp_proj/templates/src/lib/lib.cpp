@@ -3,6 +3,9 @@
 {% if EXTERN.fmt %}
 #include <fmt/core.h>
 {% endif %}
+{% if EXTERN.spdlog %}
+#include <spdlog/spdlog.h>
+{% endif %}
 
 #include <iostream>
 
