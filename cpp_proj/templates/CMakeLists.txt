@@ -56,7 +56,7 @@ add_subdirectory(extern/nlohmann_json EXCLUDE_FROM_ALL)
 # ------------------------------------
 # CXXOPTS
 # ------------------------------------
-add_subdirectory(extern/cxxopts)
+add_subdirectory(extern/cxxopts EXCLUDE_FROM_ALL)
 
 {% endif %}
 {% if 'fmt' in extern %}
