@@ -1,8 +1,8 @@
 #pragma once
 
-#include "{{LIB.DIR}}/use_cases/i_sample_repository.h"
+#include "{{lib.specs.dir}}/use_cases/i_sample_repository.h"
 
-namespace {{LIB.DIR}} {
+namespace {{lib.specs.dir}} {
 namespace db {
 
 class SampleRepository : public use_cases::ISampleRepository {
@@ -18,4 +18,4 @@ public:
 };
 
 } // namespace db
-} // namespace {{LIB.DIR}}
+} // namespace {{lib.specs.dir}}

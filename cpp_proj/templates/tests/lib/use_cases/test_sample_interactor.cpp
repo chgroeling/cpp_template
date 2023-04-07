@@ -2,11 +2,11 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-#include "{{LIB.DIR}}/use_cases/i_sample_interactor_output.h"
-#include "{{LIB.DIR}}/use_cases/i_sample_repository.h"
-#include "{{LIB.DIR}}/use_cases/sample_interactor.h"
+#include "{{lib.specs.dir}}/use_cases/i_sample_interactor_output.h"
+#include "{{lib.specs.dir}}/use_cases/i_sample_repository.h"
+#include "{{lib.specs.dir}}/use_cases/sample_interactor.h"
 
-using namespace {{LIB.DIR}};
+using namespace {{lib.specs.dir}};
 
 using ::testing::_;
 using ::testing::NiceMock; // ignores uninteresting function calls.

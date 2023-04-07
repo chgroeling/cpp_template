@@ -1,6 +1,6 @@
-#include "{{LIB.DIR}}/controller/sample_controller.h"
+#include "{{lib.specs.dir}}/controller/sample_controller.h"
 
-using namespace {{LIB.DIR}}::controller;
+using namespace {{lib.specs.dir}}::controller;
 
 SampleController::SampleController() {
 }

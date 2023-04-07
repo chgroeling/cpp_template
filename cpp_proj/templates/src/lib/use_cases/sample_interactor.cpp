@@ -1,6 +1,6 @@
-#include "{{LIB.DIR}}/use_cases/sample_interactor.h"
+#include "{{lib.specs.dir}}/use_cases/sample_interactor.h"
 
-using namespace {{LIB.DIR}}::use_cases;
+using namespace {{lib.specs.dir}}::use_cases;
 
 SampleInteractor::SampleInteractor(std::shared_ptr<ISampleRepository> repo) : repo_(repo) {}
 

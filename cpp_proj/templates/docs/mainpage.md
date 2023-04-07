@@ -1,4 +1,4 @@
-# Documentation the {{LIB.DIR}} library {{"{"}}#mainpage}
+# Documentation the {{lib.specs.dir}} library {{"{"}}#mainpage}
 \tableofcontents
 
 This is the documentation for my simple example library.
@@ -10,10 +10,10 @@ It is good documentation because:
 3. Everything is documented (pretty easy since there's only one function)
 
 ### Some examples
-* Link to namespace: `::{{LIB.DIR}}`.
-* Link to class: `{{LIB.DIR}}::{{LIB.CLASS}}`.
-* Link to method: `{{LIB.DIR}}::{{LIB.CLASS}}::ReturnTrue`.
-* Link to method (short): [ReturnTrue](\ref {{LIB.DIR}}::{{LIB.CLASS}}::ReturnTrue).
+* Link to namespace: `::{{lib.specs.dir}}`.
+* Link to class: `{{lib.specs.dir}}::{{lib.specs.class}}`.
+* Link to method: `{{lib.specs.dir}}::{{lib.specs.class}}::ReturnTrue`.
+* Link to method (short): [ReturnTrue](\ref {{lib.specs.dir}}::{{lib.specs.class}}::ReturnTrue).
 * Defined link: [LinkPrintHello].
 
-[LinkPrintHello]: \ref {{LIB.DIR}}::{{LIB.CLASS}}::PrintHello "PrintHello"
+[LinkPrintHello]: \ref {{lib.specs.dir}}::{{lib.specs.class}}::PrintHello "PrintHello"

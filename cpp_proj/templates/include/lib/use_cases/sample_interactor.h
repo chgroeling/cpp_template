@@ -3,11 +3,11 @@
 #include <memory>
 #include <string>
 
-#include "{{LIB.DIR}}/use_cases/i_sample_interactor_input.h"
-#include "{{LIB.DIR}}/use_cases/i_sample_interactor_output.h"
-#include "{{LIB.DIR}}/use_cases/i_sample_repository.h"
+#include "{{lib.specs.dir}}/use_cases/i_sample_interactor_input.h"
+#include "{{lib.specs.dir}}/use_cases/i_sample_interactor_output.h"
+#include "{{lib.specs.dir}}/use_cases/i_sample_repository.h"
 
-namespace {{LIB.DIR}} {
+namespace {{lib.specs.dir}} {
 namespace use_cases {
 
 class SampleInteractor : public ISampleInteractorInput {
@@ -22,4 +22,4 @@ private:
 };
 
 } // namespace use_cases
-} // namespace {{LIB.DIR}}
+} // namespace {{lib.specs.dir}}

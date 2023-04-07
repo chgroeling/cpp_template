@@ -1,8 +1,8 @@
 #pragma once
 
-#include "{{LIB.DIR}}/entities/sample_interactor_request.h"
+#include "{{lib.specs.dir}}/entities/sample_interactor_request.h"
 
-namespace {{LIB.DIR}} {
+namespace {{lib.specs.dir}} {
 namespace use_cases {
 
 class ISampleInteractorInput {
@@ -11,4 +11,4 @@ public:
 };
 
 } // namespace use_cases
-} // namespace {{LIB.DIR}}
+} // namespace {{lib.specs.dir}}

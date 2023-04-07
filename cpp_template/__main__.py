@@ -15,16 +15,16 @@ project_def = {
     # Applikation
     # --------
     "app": {
-       "specs": {
-           "dir": "app_bs",  # The project will be generated with one app in the given directory
-           "target": "app_bs",  # That is the name of the target
-       },
-       "cxxopts_example": {"extern.cxxopts"},
-       "fmt_example": {"extern.fmt"},
-       "lib_example": {"lib"},
-       "spdlog_example": {"extern.spdlog"},
-       #"wxwidgets_example": {"extern.wxwidgets"},
-       #"clean_architecture_example": {"lib.clean_architecture"},
+        "specs": {
+            "dir": "app_bs",  # The project will be generated with one app in the given directory
+            "target": "app_bs",  # That is the name of the target
+        },
+        "cxxopts_example": {"extern.cxxopts"},
+        "fmt_example": {"extern.fmt"},
+        "lib_example": {"lib"},
+        "spdlog_example": {"extern.spdlog"},
+        #"wxwidgets_example": {"extern.wxwidgets"},
+        "clean_architecture_example": {"lib.clean_architecture"},
     },
     #
     # --------
@@ -38,27 +38,28 @@ project_def = {
         },
         "fmt_example": {"extern.fmt"},
         "spdlog_example": {"extern.spdlog"},
-        # "clean_architecture": {},
+        "clean_architecture": {},
     },
     # --------
     # Documentation
     # --------
-    # "doc": {
-    #     "lib_docs": {"lib", "extern.doxygen"},
-    # },
-    #
+    "doc": {
+        "lib_docs": {
+            "lib",
+            "extern.doxygen",
+        },  # a new targets called "docs" will be added. (e.g. cmake --build . --target docs)
+    },
     # --------
     # Tests
     # --------
     "test": {
         "basic": {"extern.googletest"},
-        #"lib": {"lib", "extern.googletest"},
-        # "clean_architecture_example": {
-        #     "lib.clean_architecture",
-        #     "extern.googletest",
-        # },
+        "lib": {"lib", "extern.googletest"},
+         "clean_architecture_tests": {
+             "lib.clean_architecture",
+             "extern.googletest",
+         },
     },
-
     #
     # --------
     # Externals
@@ -69,7 +70,7 @@ project_def = {
         "cxxopts": {},
         "fmt": {},
         "spdlog": {},
-        #"doxygen": {},
+        "doxygen": {},
     },
 }
 
@@ -156,13 +157,12 @@ proj_path = "./tmp/"
 is_app = "app" in project_def
 is_lib = "lib" in project_def
 is_test = "test" in project_def
-is_cleanarchitecture = False 
-is_fmt = "fmt" in project_def['extern'] 
-is_doxygen = "doxygen" in project_def['extern'] 
-is_spdlog = "spdlog" in project_def['extern'] 
-is_cxxopts = "cxxopts" in project_def['extern'] 
-is_wxwidgets = "wxwidgets" in project_def['extern'] 
-is_googletest = "googletest" in project_def['extern'] 
+is_fmt = "fmt" in project_def["extern"]
+is_doxygen = "doxygen" in project_def["extern"]
+is_spdlog = "spdlog" in project_def["extern"]
+is_cxxopts = "cxxopts" in project_def["extern"]
+is_wxwidgets = "wxwidgets" in project_def["extern"]
+is_googletest = "googletest" in project_def["extern"]
 
 
 # ----------------------------------------------------------------------------
@@ -179,18 +179,79 @@ FILES_TO_RENDER = [
 
 if is_lib:
     lib_dir = project_def["lib"]["specs"]["dir"]
-    
+
+    is_clean_architecture = "clean_architecture" in project_def["lib"]
+
     FILES_TO_RENDER += [
         ("src/CMakeLists.txt", proj_path + "src/CMakeLists.txt"),
         (
             "src/lib/lib.cpp",
-            proj_path + "src/%s/%s.cpp" % (lib_dir, project_def["lib"]['specs']["filename"]),
+            proj_path
+            + "src/%s/%s.cpp" % (lib_dir, project_def["lib"]["specs"]["filename"]),
         ),
         (
             "include/lib/lib.h",
-            proj_path + "include/%s/%s.h" % (lib_dir, project_def["lib"]["specs"]["filename"]),
+            proj_path
+            + "include/%s/%s.h" % (lib_dir, project_def["lib"]["specs"]["filename"]),
         ),
     ]
+
+    if is_clean_architecture:
+        FILES_TO_RENDER += [
+            (
+                "src/lib/use_cases/sample_interactor.cpp",
+                proj_path + "src/%s/use_cases/sample_interactor.cpp" % (lib_dir),
+            ),
+            (
+                "src/lib/controller/sample_controller.cpp",
+                proj_path + "src/%s/controller/sample_controller.cpp" % (lib_dir),
+            ),
+            (
+                "src/lib/presenter/sample_presenter.cpp",
+                proj_path + "src/%s/presenter/sample_presenter.cpp" % (lib_dir),
+            ),
+            (
+                "include/lib/entities/sample_interactor_request.h",
+                proj_path
+                + "include/%s/entities/sample_interactor_request.h" % (lib_dir),
+            ),
+            (
+                "include/lib/entities/sample_interactor_response.h",
+                proj_path
+                + "include/%s/entities/sample_interactor_response.h" % (lib_dir),
+            ),
+            (
+                "include/lib/use_cases/i_sample_interactor_input.h",
+                proj_path
+                + "include/%s/use_cases/i_sample_interactor_input.h" % (lib_dir),
+            ),
+            (
+                "include/lib/use_cases/i_sample_interactor_output.h",
+                proj_path
+                + "include/%s/use_cases/i_sample_interactor_output.h" % (lib_dir),
+            ),
+            (
+                "include/lib/use_cases/i_sample_repository.h",
+                proj_path + "include/%s/use_cases/i_sample_repository.h" % (lib_dir),
+            ),
+            (
+                "include/lib/db/sample_repository.h",
+                proj_path + "include/%s/db/sample_repository.h" % (lib_dir),
+            ),
+            (
+                "include/lib/use_cases/sample_interactor.h",
+                proj_path + "include/%s/use_cases/sample_interactor.h" % (lib_dir),
+            ),
+            (
+                "include/lib/controller/sample_controller.h",
+                proj_path + "include/%s/controller/sample_controller.h" % (lib_dir),
+            ),
+            (
+                "include/lib/presenter/sample_presenter.h",
+                proj_path + "include/%s/presenter/sample_presenter.h" % (lib_dir),
+            ),
+        ]
+
 
 if is_app:
     app_dir = project_def["app"]["specs"]["dir"]
@@ -204,69 +265,12 @@ for from_, to_ in FILES_TO_RENDER:
     Path(to_dir).mkdir(parents=True, exist_ok=True)
     create(from_, to_)
 
-if is_cleanarchitecture:
-    CA_TO_RENDER = [
-        (
-            "src/lib/use_cases/sample_interactor.cpp",
-            proj_path + "src/%s/use_cases/sample_interactor.cpp" % (lib_dir),
-        ),
-        (
-            "src/lib/controller/sample_controller.cpp",
-            proj_path + "src/%s/controller/sample_controller.cpp" % (lib_dir),
-        ),
-        (
-            "src/lib/presenter/sample_presenter.cpp",
-            proj_path + "src/%s/presenter/sample_presenter.cpp" % (lib_dir),
-        ),
-        (
-            "include/lib/entities/sample_interactor_request.h",
-            proj_path + "include/%s/entities/sample_interactor_request.h" % (lib_dir),
-        ),
-        (
-            "include/lib/entities/sample_interactor_response.h",
-            proj_path + "include/%s/entities/sample_interactor_response.h" % (lib_dir),
-        ),
-        (
-            "include/lib/use_cases/i_sample_interactor_input.h",
-            proj_path + "include/%s/use_cases/i_sample_interactor_input.h" % (lib_dir),
-        ),
-        (
-            "include/lib/use_cases/i_sample_interactor_output.h",
-            proj_path + "include/%s/use_cases/i_sample_interactor_output.h" % (lib_dir),
-        ),
-        (
-            "include/lib/use_cases/i_sample_repository.h",
-            proj_path + "include/%s/use_cases/i_sample_repository.h" % (lib_dir),
-        ),
-        (
-            "include/lib/db/sample_repository.h",
-            proj_path + "include/%s/db/sample_repository.h" % (lib_dir),
-        ),
-        (
-            "include/lib/use_cases/sample_interactor.h",
-            proj_path + "include/%s/use_cases/sample_interactor.h" % (lib_dir),
-        ),
-        (
-            "include/lib/controller/sample_controller.h",
-            proj_path + "include/%s/controller/sample_controller.h" % (lib_dir),
-        ),
-        (
-            "include/lib/presenter/sample_presenter.h",
-            proj_path + "include/%s/presenter/sample_presenter.h" % (lib_dir),
-        ),
-    ]
-
-    for from_, to_ in CA_TO_RENDER:
-        to_dir = os.path.dirname(to_)
-        Path(to_dir).mkdir(parents=True, exist_ok=True)
-        create(from_, to_)
-
 
 if is_test:
 
-    is_test_basic = 'basic' in project_def['test']
-    is_test_lib = 'lib' in project_def['test'] 
-
+    is_test_basic = "basic" in project_def["test"]
+    is_test_lib = "lib" in project_def["test"]
+    is_clean_architecture_tests = "clean_architecture_tests" in project_def["test"]
     TESTS_TO_RENDER = [
         (
             "tests/CMakeLists.txt",
@@ -289,15 +293,15 @@ if is_test:
                 proj_path + "tests/test_%s.cpp" % (lib_dir),
             ),
         ]
-        # clean architecture tests are only allowed if test lib is active
-        if is_cleanarchitecture:
-            TESTS_TO_RENDER += [
-                (
-                    "tests/lib/use_cases/test_sample_interactor.cpp",
-                    proj_path
-                    + "tests/%s/use_cases/test_sample_interactor.cpp" % (lib_dir),
-                ),
-            ]
+    # clean architecture tests are only allowed if test lib is active
+    if is_clean_architecture_tests:
+        TESTS_TO_RENDER += [
+            (
+                "tests/lib/use_cases/test_sample_interactor.cpp",
+                proj_path
+                + "tests/%s/use_cases/test_sample_interactor.cpp" % (lib_dir),
+            ),
+        ]
 
     for from_, to_ in TESTS_TO_RENDER:
         to_dir = os.path.dirname(to_)

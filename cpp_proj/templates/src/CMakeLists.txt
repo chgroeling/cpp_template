@@ -1,7 +1,7 @@
 # Create the library 
 set ({{lib.specs.dir|upper}}_SOURCES 
   {{lib.specs.dir}}/{{lib.specs.filename}}.cpp
-{% if 'cleanarchitecture' in lib%}
+{% if 'clean_architecture' in lib%}
   {{lib.specs.dir}}/use_cases/sample_interactor.cpp
   {{lib.specs.dir}}/controller/sample_controller.cpp
   {{lib.specs.dir}}/presenter/sample_presenter.cpp

@@ -39,7 +39,7 @@ set(TEST_SOURCES
 {% if 'lib' in test%}
     test_{{lib.specs.dir}}.cpp
 {% endif %}
-{% if 'cleanarchitecture' in test%}
+{% if 'clean_architecture_tests' in test%}
     {{lib.specs.dir}}/use_cases/test_sample_interactor.cpp
 {% endif %}
 )

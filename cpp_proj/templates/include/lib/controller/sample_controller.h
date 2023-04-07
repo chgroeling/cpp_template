@@ -2,9 +2,9 @@
 
 #include <memory>
 
-#include "{{LIB.DIR}}/use_cases/i_sample_interactor_input.h"
+#include "{{lib.specs.dir}}/use_cases/i_sample_interactor_input.h"
 
-namespace {{LIB.DIR}} {
+namespace {{lib.specs.dir}} {
 namespace controller {
 
 class SampleController {
@@ -18,4 +18,4 @@ private:
 };
 
 } // namespace controller
-} // namespace {{LIB.DIR}}
+} // namespace {{lib.specs.dir}}

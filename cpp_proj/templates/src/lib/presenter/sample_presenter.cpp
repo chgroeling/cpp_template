@@ -1,6 +1,6 @@
-#include "{{LIB.DIR}}/presenter/sample_presenter.h"
+#include "{{lib.specs.dir}}/presenter/sample_presenter.h"
 
-using namespace {{LIB.DIR}}::presenter;
+using namespace {{lib.specs.dir}}::presenter;
 
 SamplePresenter::SamplePresenter() {
 }

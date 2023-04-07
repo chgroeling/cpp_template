@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace {{LIB.DIR}} {
+namespace {{lib.specs.dir}} {
 namespace use_cases {
 
 class ISampleRepository {
@@ -12,4 +12,4 @@ public:
 };
 
 } // namespace use_cases
-} // namespace {{LIB.DIR}}
+} // namespace {{lib.specs.dir}}

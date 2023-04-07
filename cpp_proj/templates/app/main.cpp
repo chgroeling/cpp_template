@@ -14,7 +14,7 @@
 #include <cxxopts.hpp>
 {% endif %}
 
-{% if 'cleanarchitecture' in app %}
+{% if 'clean_architecture_example' in app %}
 #include "{{lib.specs.dir}}/controller/sample_controller.h"
 #include "{{lib.specs.dir}}/db/sample_repository.h"
 #include "{{lib.specs.dir}}/presenter/sample_presenter.h"
@@ -43,7 +43,7 @@ void LogTest() {
 {% endif %}
 
 {% if 'cxxopts_example' in app%}
-int ParseCommandLine(int argc, const char *argv[]) {
+int ParseCommandLine(int argc, const char **argv) {
   cxxopts::Options options("{{app.specs.target}}", "One line description of \"{{app.specs.target}}\"");
 
   options.positional_help("<filenames>");
@@ -102,7 +102,7 @@ int ParseCommandLine(int argc, const char *argv[]) {
 }
 
 {% endif %}
-{% if 'cleanarchitecture' in lib %}
+{% if 'clean_architecture_example' in app %}
 void TestCleanArchitecture() {
   auto sample_repository = std::make_shared<{{lib.specs.dir}}::db::SampleRepository>();
 
@@ -140,7 +140,7 @@ int main(int argc, const char *argv[]) {
   lib.PrintHello();
 
 {% endif %}
-{% if 'cleanarchitecture' in app %}
+{% if 'clean_architecture_example' in app %}
   // Test clean architecture implementation
   TestCleanArchitecture();
 
@@ -188,7 +188,7 @@ bool MyApp::OnInit() {
   lib.PrintHello();
 
 {% endif %}
-{% if 'cleanarchitecture' in app %}
+{% if 'clean_architecture_example' in app %}
   // Test clean architecture implementation
   TestCleanArchitecture();
 
@@ -196,7 +196,14 @@ bool MyApp::OnInit() {
 {% if 'cxxopts_example' in app%}
   // Parse command line options
   // Currently not supported when using wxWdigets
-  // ret = ParseCommandLine(argc, argv);
+
+  // the argv type has an overload so that it can be casted safely to (char**)
+  char** cargv = ( char**)argv; 
+
+  // ugly hack ... assume that the values will not change in the future
+  const char ** ccargv = const_cast<const char **>(cargv);
+
+  static_cast<void>(ParseCommandLine(argc, ccargv));
 
 {% endif %}
   Simple *simple = new Simple(wxT("Simple"));
