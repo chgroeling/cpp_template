@@ -10,6 +10,9 @@ def Settings( **kwargs ):
               '-I./extern/googletest/googletest/include', 
               '-I./extern/googletest/googlemock/include', 
 {% endif %}
+{% if EXTERN.cxxopts%}
+              '-I./extern/cxxopts/include', 
+{% endif %}
               '-I./extern/fmt/include', 
               '-I./extern/spdlog/include',
               '-I./include', 
