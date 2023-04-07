@@ -1,6 +1,8 @@
 {% if EXTERN.fmt %}
 #include <fmt/core.h>
 {% endif %}
+#include <iostream>
+#include <memory>
 {% if EXTERN.spdlog %}
 #include <spdlog/spdlog.h>
 {% endif %}
@@ -8,14 +10,14 @@
 #include <wx/wx.h>
 {% endif %}
 
-#include <iostream>
-#include <memory>
-
+{% if GENERATOR.cleanarchitecture %}
 #include "{{LIB.DIR}}/controller/sample_controller.h"
 #include "{{LIB.DIR}}/db/sample_repository.h"
-#include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
 #include "{{LIB.DIR}}/presenter/sample_presenter.h"
 #include "{{LIB.DIR}}/use_cases/sample_interactor.h"
+
+{% endif %}
+#include "{{LIB.DIR}}/{{LIB.FILENAME}}.h"
 
 {% if EXTERN.spdlog%}
 void log_test() {
@@ -32,19 +34,8 @@ void log_test() {
   spdlog::debug("This message should be displayed.."); 
 }
 {% endif %}
-
-void test() {
-  std::cout << "App: Hello World !!!\n";
-  {{LIB.DIR}}::{{LIB.CLASS}} lib;
-
-  lib.PrintHello();
-{% if EXTERN.fmt %}
-  fmt::print("App: Hello FMT\n");
-{% endif %}
-{% if EXTERN.spdlog%}
-  log_test();
-{% endif %}
-
+{% if GENERATOR.cleanarchitecture %}
+void test_clean_architecture() {
   auto sample_repository = std::make_shared<{{LIB.DIR}}::db::SampleRepository>();
 
   auto sample_presenter = std::make_shared<{{LIB.DIR}}::presenter::SamplePresenter>();
@@ -58,9 +49,23 @@ void test() {
   sample_controller->DoSomething();
 }
 
+{% endif %}
+
 {% if not EXTERN.wxWidgets %}
 int main(int argc, const char* argv[]) {
-  test();
+  std::cout << "App: Hello World !!!\n";
+  {{LIB.DIR}}::{{LIB.CLASS}} lib;
+
+  lib.PrintHello();
+{% if GENERATOR.cleanarchitecture %}
+  test_clean_architecture();
+{% endif %}
+{% if EXTERN.fmt %}
+  fmt::print("App: Hello FMT\n");
+{% endif %}
+{% if EXTERN.spdlog%}
+  log_test();
+{% endif %}
 }
 {% else %}
 class Simple : public wxFrame {
@@ -81,7 +86,19 @@ public:
 IMPLEMENT_APP(MyApp)
 
 bool MyApp::OnInit() {
-  test();
+  std::cout << "App: Hello World !!!\n";
+  {{LIB.DIR}}::{{LIB.CLASS}} lib;
+
+  lib.PrintHello();
+{% if GENERATOR.cleanarchitecture %}
+  test_clean_architecture();
+{% endif %}
+{% if EXTERN.fmt %}
+  fmt::print("App: Hello FMT\n");
+{% endif %}
+{% if EXTERN.spdlog%}
+  log_test();
+{% endif %}
   Simple *simple = new Simple(wxT("Simple"));
   simple->Show(true);
 

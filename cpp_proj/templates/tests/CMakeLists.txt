@@ -11,7 +11,6 @@ mark_as_advanced(
     gtest_disable_pthreads gtest_force_shared_crt gtest_hide_internal_symbols
 )
 
-
 macro(package_add_test TESTNAME)
     # create an executable in which the tests will be stored
     add_executable(${TESTNAME} ${ARGN})
@@ -31,7 +30,9 @@ endmacro()
 set(TEST_SOURCES
     test1.cpp
     test2.cpp
+{% if GENERATOR.cleanarchitecture%}
     {{LIB.DIR}}/use_cases/test_sample_interactor.cpp
+{% endif %}
 )
 
 package_add_test(ptest ${TEST_SOURCES})

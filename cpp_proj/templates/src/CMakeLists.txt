@@ -1,9 +1,11 @@
 # Create the library 
 add_library({{LIB.DIR}}
   {{LIB.DIR}}/{{LIB.FILENAME}}.cpp
+{% if GENERATOR.cleanarchitecture%}
   {{LIB.DIR}}/use_cases/sample_interactor.cpp
   {{LIB.DIR}}/controller/sample_controller.cpp
   {{LIB.DIR}}/presenter/sample_presenter.cpp
+{% endif %}
 )
 
 # Add the include directories and make them known to other targets (PUBLIC)
