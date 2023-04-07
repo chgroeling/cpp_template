@@ -9,7 +9,8 @@
 {% if 'wxwidgets' in extern %}
 #include <wx/wx.h>
 {% endif %}
-{% if 'cxxopts' in extern %}
+
+{% if 'cxxopts_example' in app%}
 #include <cxxopts.hpp>
 {% endif %}
 
@@ -40,8 +41,9 @@ void LogTest() {
 }
 
 {% endif %}
-{% if 'cxxopts' in extern%}
-int parse_command_line(int argc, const char *argv[]) {
+
+{% if 'cxxopts_example' in app%}
+int ParseCommandLine(int argc, const char *argv[]) {
   cxxopts::Options options("{{app.specs.target}}", "One line description of \"{{app.specs.target}}\"");
 
   options.positional_help("<filenames>");
@@ -143,9 +145,9 @@ int main(int argc, const char *argv[]) {
   TestCleanArchitecture();
 
 {% endif %}
-{% if 'cxxopts' in extern%}
+{% if 'cxxopts_example' in app%}
   // Parse command line options
-  ret = parse_command_line(argc, argv);
+  ret = ParseCommandLine(argc, argv);
 
 {% endif %}
   return ret;
@@ -191,10 +193,10 @@ bool MyApp::OnInit() {
   TestCleanArchitecture();
 
 {% endif %}
-{% if 'cxxopts' in extern%}
+{% if 'cxxopts_example' in app%}
   // Parse command line options
   // Currently not supported when using wxWdigets
-  // ret = parse_command_line(argc, argv);
+  // ret = ParseCommandLine(argc, argv);
 
 {% endif %}
   Simple *simple = new Simple(wxT("Simple"));

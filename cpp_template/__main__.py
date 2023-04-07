@@ -19,7 +19,7 @@ project_def = {
            "dir": "app_bs",  # The project will be generated with one app in the given directory
            "target": "app_bs",  # That is the name of the target
        },
-       #"cxxopts_example": {"extern.cxxopts"},
+       "cxxopts_example": {"extern.cxxopts"},
        "fmt_example": {"extern.fmt"},
        "lib_example": {"lib"},
        "spdlog_example": {"extern.spdlog"},
@@ -66,7 +66,7 @@ project_def = {
     "extern": {
         #"wxwidgets": {},
         "googletest": {},
-        #"cxxopts": {},
+        "cxxopts": {},
         "fmt": {},
         "spdlog": {},
         #"doxygen": {},
