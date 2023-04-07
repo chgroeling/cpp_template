@@ -8,6 +8,9 @@
 {% if 'fmt_example' in lib%}
 #include <fmt/core.h>
 {% endif %}
+{% if 'nlohmann_json_example' in lib%}
+#include <nlohmann/json.hpp>
+{% endif %}
 #include <iostream>
 
 namespace {{lib.specs.dir}} {
@@ -37,6 +40,9 @@ void {{lib.specs.class}}::PrintHello() {
 {% if 'spdlog_example' in lib%}
   LogTest();
 {% endif %}
+{% if 'nlohmann_json_example' in lib%}
+  NlohmannJsonTest();
+{% endif %}
 }
 
 bool {{lib.specs.class}}::ReturnTrue() { 
@@ -58,4 +64,22 @@ void {{lib.specs.class}}::LogTest() {
 }
 
 {% endif %}
+{% if 'nlohmann_json_example' in lib%}
+void {{lib.specs.class}}::NlohmannJsonTest() {
+  using json = nlohmann::json;
+  // or even nicer with a raw string literal
+  auto j = R"(
+    {
+      "happy": true,
+      "pi": 3.141
+    }
+  )"_json;
+
+  // serialization with pretty printing
+  // pass in the amount of spaces to indent
+  std::cout << j.dump(4) << std::endl;
+}
+{% endif %}
+
+
 } // namespace {{lib.specs.dir}}

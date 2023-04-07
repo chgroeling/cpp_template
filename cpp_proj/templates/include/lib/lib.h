@@ -34,6 +34,11 @@ public:
   bool ReturnTrue();
 
 private:
+{% if 'nlohmann_json_example' in lib%}
+  /// Json Test
+  void NlohmannJsonTest();
+
+{% endif %}
 {% if 'spdlog_example' in lib%}
   /// Print outs test logging messages
   void LogTest();

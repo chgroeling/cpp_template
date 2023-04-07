@@ -122,6 +122,7 @@ int ParseCommandLine(int argc, const char **argv) {
 {% endif %}
 {% if 'clean_architecture_example' in app %}
 void TestCleanArchitecture() {
+  std::cout << "Test Clean Architecture" << std::endl;
   auto sample_repository = std::make_shared<{{lib.specs.dir}}::db::SampleRepository>();
 
   auto sample_presenter = std::make_shared<{{lib.specs.dir}}::presenter::SamplePresenter>();
@@ -152,15 +153,15 @@ int main(int argc, const char *argv[]) {
   LogTest();
 
 {% endif %}
+{% if 'nlohmann_json_example' in app%}
+  // Nlohmanns json lib test
+  NlohmannJsonTest();
+
+{% endif %}
 {% if 'lib_example' in app%}
   // Test local library
   {{lib.specs.dir}}::{{lib.specs.class}} lib;
   lib.PrintHello();
-
-{% endif %}
-{% if 'nlohmann_json_example' in app%}
-  // Nlohmanns json lib test
-  NlohmannJsonTest();
 
 {% endif %}
 {% if 'clean_architecture_example' in app %}

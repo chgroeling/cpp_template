@@ -38,6 +38,7 @@ project_def = {
             "class": "BitStream",  # This is the name of the class defined in the generated cpp module
         },
         "fmt_example": {"extern.fmt"},
+        "nlohmann_json_example" : {"extern.nlohmann_json"},
         "spdlog_example": {"extern.spdlog"},
         "clean_architecture": {},
     },
