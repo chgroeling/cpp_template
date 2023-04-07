@@ -1,3 +1,6 @@
+{% if 'cxxopts_example' in app%}
+#include <cxxopts.hpp>
+{% endif %}
 {% if 'fmt_example' in app%}
 #include <fmt/core.h>
 {% endif %}
@@ -8,10 +11,6 @@
 {% endif %}
 {% if 'wxwidgets' in extern %}
 #include <wx/wx.h>
-{% endif %}
-
-{% if 'cxxopts_example' in app%}
-#include <cxxopts.hpp>
 {% endif %}
 
 {% if 'clean_architecture_example' in app %}
@@ -29,19 +28,18 @@
 void LogTest() {
   spdlog::info("Welcome to spdlog!");
   spdlog::error("Some error message with arg: {}", 1);
-  
+ 
   spdlog::warn("Easy padding in numbers like {:08d}", 12);
   spdlog::critical("Support for int: {0:d};  hex: {0:x};  oct: {0:o}; bin: {0:b}", 42);
   spdlog::info("Support for floats {:03.2f}", 1.23456);
   spdlog::info("Positional args are {1} {0}..", "too", "supported");
   spdlog::info("{:<30}", "left aligned");
-  
+ 
   spdlog::set_level(spdlog::level::debug); // Set global log level to debug
-  spdlog::debug("This message should be displayed.."); 
+  spdlog::debug("This message should be displayed..");
 }
 
 {% endif %}
-
 {% if 'cxxopts_example' in app%}
 int ParseCommandLine(int argc, const char **argv) {
   cxxopts::Options options("{{app.specs.target}}", "One line description of \"{{app.specs.target}}\"");
@@ -63,7 +61,7 @@ int ParseCommandLine(int argc, const char **argv) {
   cxxopts::ParseResult result;
   try {
     result = options.parse(argc, argv);
-  } catch (const cxxopts::OptionParseException& x) {
+  } catch (const cxxopts::OptionParseException &x) {
     std::cerr << "{{app.specs.target}}: " << x.what() << '\n';
     std::cerr << "usage: {{app.specs.target}} [options] <filenames> ...\n";
     return EXIT_FAILURE;
@@ -77,25 +75,25 @@ int ParseCommandLine(int argc, const char **argv) {
 
   // Enable logging
   switch (result.count("verbose")) {
-    case 0:
-      // no output
-      break;
-    case 1:
-      std::cout << "verbose:1\n";
-      break;
-    case 2:
-      std::cout << "verbose:2\n";
-      break;
-    default:
-      std::cout << "verbose:?\n";
-      break;
+  case 0:
+    // no output
+    break;
+  case 1:
+    std::cout << "verbose:1\n";
+    break;
+  case 2:
+    std::cout << "verbose:2\n";
+    break;
+  default:
+    std::cout << "verbose:?\n";
+    break;
   }
 
   if (result.count("filelist")) {
     std::cout << "filelist command \n";
     const auto files = result["input_files"].as<std::vector<std::string>>();
     for (const auto &file : files) {
-      std::cout<<"- "<<file<<"\n";
+      std::cout << "- " << file << "\n";
     }
   }
   return EXIT_SUCCESS;

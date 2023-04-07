@@ -157,6 +157,7 @@ proj_path = "./tmp/"
 is_app = "app" in project_def
 is_lib = "lib" in project_def
 is_test = "test" in project_def
+
 is_fmt = "fmt" in project_def["extern"]
 is_doxygen = "doxygen" in project_def["extern"]
 is_spdlog = "spdlog" in project_def["extern"]
