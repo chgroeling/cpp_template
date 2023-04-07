@@ -9,6 +9,7 @@ namespace controller {
 
 class SampleController {
 public:
+  SampleController();
   void SetOutput(std::shared_ptr<use_cases::ISampleInteractorInput> output);
   void DoSomething();
 

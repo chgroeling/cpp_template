@@ -110,6 +110,11 @@ FILES_TO_RENDER = [
         proj_path + "src/%s/controller/sample_controller.cpp" % (lib_dir),
     ),
     (
+        "src/lib/presenter/sample_presenter.cpp",
+        proj_path + "src/%s/presenter/sample_presenter.cpp" % (lib_dir),
+    ),
+
+    (
         "include/lib/lib.h",
         proj_path + "include/%s/%s.h" % (lib_dir, project_def["LIB"]["FILENAME"]),
     ),

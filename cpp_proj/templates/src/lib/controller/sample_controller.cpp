@@ -2,6 +2,9 @@
 
 using namespace {{LIB.DIR}}::controller;
 
+SampleController::SampleController() {
+}
+
 void SampleController::SetOutput(std::shared_ptr<use_cases::ISampleInteractorInput> output) {
   output_ = output;
 }
