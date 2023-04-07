@@ -14,10 +14,14 @@ project_def = {
     "PROJECT_NAME": "cpp_template",
     "PROJECT_VERSION": "0.3",
     "PROJECT_DESCRIPTION": "Test Project",
-    "LIB": {                    # The project will be generated with one library
-        "DIR": "mylib",         # This is the name of the library directory
-        "FILENAME": "libary",   # The library directory contains one cpp module with this name
-        "CLASS": "MyClass",     # This is the name of the class defined in the generated cpp module
+    "APP": {
+        "DIR": "myapp",    # The project will be generated with one app in the given directory
+        "TARGET": "appl",  # Thats the name of the target
+    },  
+    "LIB": {  # The project will be generated with one library
+        "DIR": "mylib",  # This is the name of the library directory
+        "FILENAME": "libary",  # The library directory contains one cpp module with this name
+        "CLASS": "MyClass",  # This is the name of the class defined in the generated cpp module
     },
     "EXTERN": {
         "doxygen": False,
@@ -42,12 +46,14 @@ def create(template_name, filepos):
     with open(filepos, "w") as fh:
         fh.write(out_template)
 
+
 # ----------------------------------------------------------------------------
 # CREATE DIRECTORY STRUCTURE
 # ----------------------------------------------------------------------------
 
+app_dir = project_def["APP"]["DIR"]
 # Create directory structure
-Path("./tmp/app/").mkdir(parents=True, exist_ok=True)
+Path("./tmp/%s/" % (app_dir)).mkdir(parents=True, exist_ok=True)
 Path("./tmp/src/").mkdir(parents=True, exist_ok=True)
 Path("./tmp/src/%s/" % (project_def["LIB"]["DIR"])).mkdir(parents=True, exist_ok=True)
 Path("./tmp/include/").mkdir(parents=True, exist_ok=True)
@@ -60,9 +66,9 @@ Path("./tmp/include/%s/" % (project_def["LIB"]["DIR"])).mkdir(
 # ----------------------------------------------------------------------------
 create("gitignore", "tmp/.gitignore")
 create("CMakeLists.txt", "tmp/CMakeLists.txt")
-create("app/CMakeLists.txt", "tmp/app/CMakeLists.txt")
+create("app/CMakeLists.txt", "tmp/%s/CMakeLists.txt" % (app_dir))
 create("src/CMakeLists.txt", "tmp/src/CMakeLists.txt")
-create("app/main.cpp", "tmp/app/main.cpp")
+create("app/main.cpp", "tmp/%s/main.cpp" % (app_dir))
 create(
     "src/lib/lib.cpp",
     "tmp/src/%s/%s.cpp" % (project_def["LIB"]["DIR"], project_def["LIB"]["FILENAME"]),
@@ -73,6 +79,6 @@ create(
 )
 
 # ----------------------------------------------------------------------------
-# Initialize Git Repositories 
+# Initialize Git Repositories
 # ----------------------------------------------------------------------------
 GitInit("./tmp")

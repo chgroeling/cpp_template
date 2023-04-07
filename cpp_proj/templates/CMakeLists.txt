@@ -78,7 +78,7 @@ target_include_directories(pcre2-8-static INTERFACE ${PROJECT_BINARY_DIR}/extern
 # --------------
 add_subdirectory(src)
 
-add_subdirectory(app)
+add_subdirectory({{APP.DIR}})
 
 {% if EXTERN.googletest%}
 # Testing only available if this is the main app
