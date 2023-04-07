@@ -9,17 +9,8 @@ namespace controller {
 
 class SampleController {
 public:
-  void SetOutput(std::shared_ptr<use_cases::ISampleInteractorInput> output) {
-    output_ = output;
-  }
-
-  void DoSomething() {
-    entities::SampleInteractorRequest request;
-    request.request_data = 12345;
-    if (output_) {
-      output_->DoSomething(request);
-    }
-  }
+  void SetOutput(std::shared_ptr<use_cases::ISampleInteractorInput> output);
+  void DoSomething();
 
 private:
   std::shared_ptr<use_cases::ISampleInteractorInput> output_;
